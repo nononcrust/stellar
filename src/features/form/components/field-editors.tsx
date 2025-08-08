@@ -3,7 +3,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tooltip } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Trash2Icon } from "lucide-react";
-import { LongText, ShortText, StellarFormField } from "..";
+import { LongText, ShortText, StellarFormField } from "../schema";
 import { Field } from "./fields";
 
 type ShortTextEditorProps = {
@@ -32,7 +32,7 @@ type LongTextEditorProps = {
   onRemoveField: (id: string) => void;
 };
 
-const LongTextEditor = ({ field, onFieldChange, onRemoveField }: LongTextEditorProps) => {
+export const LongTextEditor = ({ field, onFieldChange, onRemoveField }: LongTextEditorProps) => {
   return (
     <div className="flex flex-col">
       <LabelInput className="mb-2" />
@@ -43,41 +43,6 @@ const LongTextEditor = ({ field, onFieldChange, onRemoveField }: LongTextEditorP
         onRemoveField={onRemoveField}
       />
     </div>
-  );
-};
-
-type FieldEditorProps = {
-  field: StellarFormField;
-  onFieldChange: (field: StellarFormField) => void;
-  onRemoveField: (id: string) => void;
-};
-
-export const FieldEditor = ({ field, onFieldChange, onRemoveField }: FieldEditorProps) => {
-  return (
-    <>
-      {(() => {
-        switch (field.type) {
-          case "SHORT_TEXT":
-            return (
-              <ShortTextEditor
-                field={field}
-                onFieldChange={onFieldChange}
-                onRemoveField={onRemoveField}
-              />
-            );
-          case "LONG_TEXT":
-            return (
-              <LongTextEditor
-                field={field}
-                onFieldChange={onFieldChange}
-                onRemoveField={onRemoveField}
-              />
-            );
-          default:
-            field satisfies never;
-        }
-      })()}
-    </>
   );
 };
 
@@ -134,3 +99,8 @@ const LabelInput = ({ className, ...props }: LabelInputProps) => {
 //     />
 //   );
 // };
+
+export const FieldEditor = {
+  ShortText: ShortTextEditor,
+  LongText: LongTextEditor,
+};

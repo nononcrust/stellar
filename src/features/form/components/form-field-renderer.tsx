@@ -1,17 +1,14 @@
 import { Form } from "@/components/ui/form";
 import { ControllerRenderProps } from "react-hook-form";
-import { StellarFormField } from "..";
+import { StellarFormField } from "../schema";
 import { Field } from "./fields";
 
-type StellarFormFieldRendererProps = {
+type FormFieldRendererProps = {
   type: StellarFormField["type"];
   field: ControllerRenderProps<Record<string, string | undefined>, string>;
 };
 
-export const StellarFormFieldRenderer = ({
-  type: fieldType,
-  field,
-}: StellarFormFieldRendererProps) => {
+export const FormFieldRenderer = ({ type: fieldType, field }: FormFieldRendererProps) => {
   return (
     <Form.Control>
       {(() => {

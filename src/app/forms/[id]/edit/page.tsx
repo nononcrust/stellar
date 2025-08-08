@@ -5,10 +5,10 @@ import { SortableArea } from "@/components/sortable/sortable-area";
 import { SortableItem } from "@/components/sortable/sortable-item";
 import { Button } from "@/components/ui/button";
 import { IconButton } from "@/components/ui/icon-button";
-import { StellarFormField } from "@/features/form";
-import { FieldEditor } from "@/features/form/components/editors";
 import { FieldDropdown } from "@/features/form/components/field-dropdown";
+import { FormFieldEditor } from "@/features/form/components/form-field-editor";
 import { TITLE_MAX_LENGTH } from "@/features/form/configs";
+import { StellarFormField } from "@/features/form/schema";
 import { inquiryFormTemplate } from "@/features/form/templates";
 import { ErrorBoundary, Suspense } from "@suspensive/react";
 import { PlusIcon } from "lucide-react";
@@ -93,7 +93,7 @@ const FieldItem = ({ field }: FieldItemProps) => {
       <div className="flex items-start gap-2">
         <DragHandle id={field.id} />
         <div className="flex-1">
-          <FieldEditor field={field} onFieldChange={updateField} onRemoveField={removeField} />
+          <FormFieldEditor field={field} onFieldChange={updateField} onRemoveField={removeField} />
         </div>
       </div>
     </SortableItem>

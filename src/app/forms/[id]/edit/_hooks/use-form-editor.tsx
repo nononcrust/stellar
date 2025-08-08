@@ -1,5 +1,7 @@
-import { createEmptyField, StellarForm, StellarFormField } from "@/features/form";
+import { StellarForm, StellarFormField } from "@/features/form/schema";
+import { createEmptyField } from "@/features/form/utils";
 import { createContextFactory } from "@/lib/context";
+import { arrayMove } from "@dnd-kit/sortable";
 import { useState } from "react";
 
 type FormEditorContext = {
@@ -59,21 +61,14 @@ export const useFormEditor = () => {
 
   const swapFields = (id: string, overId: string) => {
     setStellarForm((prev) => {
-      const fields = [...prev.fields];
-      const fromIndex = fields.findIndex((field) => field.id === id);
-      const toIndex = fields.findIndex((field) => field.id === overId);
+      const fromIndex = prev.fields.findIndex((field) => field.id === id);
+      const toIndex = prev.fields.findIndex((field) => field.id === overId);
 
       if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return prev;
 
-      const [movedField] = fields.splice(fromIndex, 1);
-
-      if (!movedField) return prev;
-
-      fields.splice(toIndex, 0, movedField);
-
       return {
         ...prev,
-        fields,
+        fields: arrayMove(prev.fields, fromIndex, toIndex),
       };
     });
   };

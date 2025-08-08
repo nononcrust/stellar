@@ -1,4 +1,4 @@
-import { LongText, ShortText, StellarForm } from ".";
+import { LongText, ShortText, StellarForm } from "./schema";
 
 const name: ShortText = {
   id: "name",

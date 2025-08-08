@@ -1,16 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import { createFormDefaultValues, createFormSchema, StellarForm } from "..";
-import { StellarFormFieldRenderer } from "./stellar-form-field-renderer";
+import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
+import { StellarForm } from "../schema";
+import { createFormDefaultValues, createFormSchema } from "../utils";
+import { FormFieldRenderer } from "./form-field-renderer";
 
-type StellarFormRendererProps = {
+type FormRendererProps = {
   stellarForm: StellarForm;
   onSubmit: (data: unknown) => void;
 };
 
-export const StellarFormRenderer = ({ stellarForm, onSubmit }: StellarFormRendererProps) => {
+export const FormRenderer = ({ stellarForm, onSubmit }: FormRendererProps) => {
   const formSchema = createFormSchema(stellarForm);
 
   const form = useForm({
@@ -33,7 +34,10 @@ export const StellarFormRenderer = ({ stellarForm, onSubmit }: StellarFormRender
               name={formField.id}
               control={form.control}
               render={({ field }) => (
-                <StellarFormFieldRenderer type={formField.type} field={field} />
+                <FormFieldRenderer
+                  type={formField.type}
+                  field={field as ControllerRenderProps<Record<string, string | undefined>, string>}
+                />
               )}
             />
             <Form.ErrorMessage>{form.formState.errors[formField.id]?.message}</Form.ErrorMessage>
