@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { OverlayProvider } from "overlay-kit";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,7 +15,9 @@ const queryClient = new QueryClient({
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>{children}</ThemeProvider>
+      <ThemeProvider>
+        <OverlayProvider>{children}</OverlayProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

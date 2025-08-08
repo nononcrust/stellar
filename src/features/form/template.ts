@@ -1,4 +1,4 @@
-import { Form, LongText, ShortText } from ".";
+import { LongText, ShortText, StellarForm } from ".";
 
 const name: ShortText = {
   id: "name",
@@ -45,7 +45,7 @@ const inquiryContent: LongText = {
   maxLength: 1000,
 };
 
-export const inquiryFormTemplate: Form = {
+export const inquiryFormTemplate: StellarForm = {
   id: "inquiryForm",
   title: "상담 문의",
   fields: [name, phoneNumber, email, inquiryTitle, inquiryContent],

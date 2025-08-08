@@ -1,35 +1,39 @@
 import { flow } from "es-toolkit";
+import { nanoid } from "nanoid";
 import z from "zod";
 
-type FormFieldBase = z.infer<typeof FormFieldBase>;
-const FormFieldBase = z.object({
+export const FORM_TYPES = ["SHORT_TEXT", "LONG_TEXT"] as const;
+
+type StellarFormFieldBase = z.infer<typeof StellarFormFieldBase>;
+const StellarFormFieldBase = z.object({
+  type: z.enum(FORM_TYPES),
   id: z.string(),
   label: z.string(),
   required: z.boolean(),
 });
 
 export type ShortText = z.infer<typeof ShortText>;
-export const ShortText = FormFieldBase.extend({
+export const ShortText = StellarFormFieldBase.extend({
   type: z.literal("SHORT_TEXT"),
   minLength: z.number().optional(),
   maxLength: z.number().optional(),
 });
 
 export type LongText = z.infer<typeof LongText>;
-export const LongText = FormFieldBase.extend({
+export const LongText = StellarFormFieldBase.extend({
   type: z.literal("LONG_TEXT"),
   minLength: z.number().optional(),
   maxLength: z.number().optional(),
 });
 
-export type FormField = z.infer<typeof FormField>;
-export const FormField = z.discriminatedUnion("type", [ShortText, LongText]);
+export type StellarFormField = z.infer<typeof StellarFormField>;
+export const StellarFormField = z.discriminatedUnion("type", [ShortText, LongText]);
 
-export type Form = z.infer<typeof Form>;
-export const Form = z.object({
+export type StellarForm = z.infer<typeof StellarForm>;
+export const StellarForm = z.object({
   id: z.string(),
   title: z.string(),
-  fields: z.array(FormField).nonempty(),
+  fields: z.array(StellarFormField).nonempty(),
 });
 
 const applyMinLengthConstraint = (zodSchema: z.ZodString, minLength?: number) => {
@@ -46,7 +50,7 @@ const applyOptionalConstraint = (zodSchema: z.ZodString, isRequired: boolean) =>
   return isRequired ? zodSchema : zodSchema.optional();
 };
 
-const createFormFieldSchema = (field: FormField) => {
+const createFormFieldSchema = (field: StellarFormField) => {
   switch (field.type) {
     case "SHORT_TEXT":
     case "LONG_TEXT":
@@ -60,13 +64,13 @@ const createFormFieldSchema = (field: FormField) => {
   }
 };
 
-export const createFormSchema = (form: Form) => {
+export const createFormSchema = (form: StellarForm) => {
   return z.object(
     Object.fromEntries(form.fields.map((field) => [field.id, createFormFieldSchema(field)])),
   );
 };
 
-export const createFormDefaultValues = (fields: Form["fields"]) => {
+export const createFormDefaultValues = (fields: StellarForm["fields"]) => {
   return Object.fromEntries(
     fields.map((field) => {
       switch (field.type) {
@@ -79,4 +83,29 @@ export const createFormDefaultValues = (fields: Form["fields"]) => {
       }
     }),
   );
+};
+
+export const createEmptyField = (type: StellarFormField["type"]): StellarFormField => {
+  const id = nanoid();
+
+  const emptyField: Record<StellarFormField["type"], StellarFormField> = {
+    SHORT_TEXT: {
+      id,
+      label: "",
+      required: false,
+      type: "SHORT_TEXT",
+      minLength: undefined,
+      maxLength: undefined,
+    },
+    LONG_TEXT: {
+      id,
+      label: "",
+      required: false,
+      type: "LONG_TEXT",
+      minLength: undefined,
+      maxLength: undefined,
+    },
+  };
+
+  return emptyField[type];
 };

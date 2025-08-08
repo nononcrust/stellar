@@ -1,8 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useRender } from "@base-ui-components/react/use-render";
 import { tv, VariantProps } from "tailwind-variants";
-import { cn } from "../../lib/utils";
 
 export type ButtonProps = useRender.ComponentProps<"button"> & VariantProps<typeof buttonVariants>;
 

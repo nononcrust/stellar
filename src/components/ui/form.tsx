@@ -1,9 +1,9 @@
 "use client";
 
+import { createContextFactory } from "@/lib/context";
+import { cn } from "@/lib/utils";
 import { useRender } from "@base-ui-components/react";
 import { useId, useState } from "react";
-import { createContextFactory } from "../../lib/context";
-import { cn } from "../../lib/utils";
 
 type FormProps = React.ComponentPropsWithRef<"form">;
 
