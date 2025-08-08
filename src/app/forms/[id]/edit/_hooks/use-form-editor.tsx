@@ -43,38 +43,18 @@ export const useFormEditor = () => {
     }));
   };
 
+  const updateField = (field: StellarFormField) => {
+    setStellarForm((prev) => ({
+      ...prev,
+      fields: prev.fields.map((f) => (f.id === field.id ? field : f)),
+    }));
+  };
+
   const changeTitle = (title: string) => {
     setStellarForm((prev) => ({
       ...prev,
       title,
     }));
-  };
-
-  const toggleFieldRequired = (fieldId: string) => {
-    setStellarForm((prev) => ({
-      ...prev,
-      fields: prev.fields.map((field) =>
-        field.id === fieldId ? { ...field, required: !field.required } : field,
-      ),
-    }));
-  };
-
-  const registerLabelInput = (fieldId: string) => {
-    const value = stellarForm.fields.find((field) => field.id === fieldId)?.label;
-
-    const onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-      setStellarForm((prev) => ({
-        ...prev,
-        fields: prev.fields.map((field) =>
-          field.id === fieldId ? { ...field, label: event.target.value } : field,
-        ),
-      }));
-    };
-
-    return {
-      value,
-      onChange,
-    };
   };
 
   const swapFields = (id: string, overId: string) => {
@@ -101,10 +81,9 @@ export const useFormEditor = () => {
   return {
     stellarForm,
     appendField,
+    updateField,
     removeField,
     changeTitle,
-    toggleFieldRequired,
-    registerLabelInput,
     swapFields,
   };
 };

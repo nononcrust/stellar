@@ -1,4 +1,3 @@
-import { flow } from "es-toolkit";
 import { nanoid } from "nanoid";
 import z from "zod";
 
@@ -15,15 +14,11 @@ const StellarFormFieldBase = z.object({
 export type ShortText = z.infer<typeof ShortText>;
 export const ShortText = StellarFormFieldBase.extend({
   type: z.literal("SHORT_TEXT"),
-  minLength: z.number().optional(),
-  maxLength: z.number().optional(),
 });
 
 export type LongText = z.infer<typeof LongText>;
 export const LongText = StellarFormFieldBase.extend({
   type: z.literal("LONG_TEXT"),
-  minLength: z.number().optional(),
-  maxLength: z.number().optional(),
 });
 
 export type StellarFormField = z.infer<typeof StellarFormField>;
@@ -36,29 +31,15 @@ export const StellarForm = z.object({
   fields: z.array(StellarFormField).nonempty(),
 });
 
-const applyMinLengthConstraint = (zodSchema: z.ZodString, minLength?: number) => {
-  return minLength ? zodSchema.min(minLength, `최소 ${minLength}자 이상 입력해주세요.`) : zodSchema;
-};
-
-const applyMaxLengthConstraint = (zodSchema: z.ZodString, maxLength?: number) => {
-  return maxLength
-    ? zodSchema.max(maxLength, `최대 ${maxLength}자 이하로 입력해주세요.`)
-    : zodSchema;
-};
-
 const applyOptionalConstraint = (zodSchema: z.ZodString, isRequired: boolean) => {
-  return isRequired ? zodSchema : zodSchema.optional();
+  return isRequired ? zodSchema.min(1, "필수 항목입니다.") : zodSchema.optional();
 };
 
 const createFormFieldSchema = (field: StellarFormField) => {
   switch (field.type) {
     case "SHORT_TEXT":
     case "LONG_TEXT":
-      return flow(
-        (schema) => applyMinLengthConstraint(schema, field.minLength),
-        (schema) => applyMaxLengthConstraint(schema, field.maxLength),
-        (schema) => applyOptionalConstraint(schema, field.required),
-      )(z.string());
+      return applyOptionalConstraint(z.string(), field.required);
     default:
       return field satisfies never;
   }
@@ -94,16 +75,12 @@ export const createEmptyField = (type: StellarFormField["type"]): StellarFormFie
       label: "",
       required: false,
       type: "SHORT_TEXT",
-      minLength: undefined,
-      maxLength: undefined,
     },
     LONG_TEXT: {
       id,
       label: "",
       required: false,
       type: "LONG_TEXT",
-      minLength: undefined,
-      maxLength: undefined,
     },
   };
 

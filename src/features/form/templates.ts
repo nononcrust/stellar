@@ -2,47 +2,37 @@ import { LongText, ShortText, StellarForm } from ".";
 
 const name: ShortText = {
   id: "name",
+  type: "SHORT_TEXT",
   label: "이름",
   required: true,
-  type: "SHORT_TEXT",
-  minLength: 2,
-  maxLength: 20,
 };
 
 const phoneNumber: ShortText = {
   id: "phoneNumber",
+  type: "SHORT_TEXT",
   label: "전화번호",
   required: true,
-  type: "SHORT_TEXT",
-  minLength: 10,
-  maxLength: 15,
 };
 
 const email: ShortText = {
   id: "email",
+  type: "SHORT_TEXT",
   label: "이메일",
   required: true,
-  type: "SHORT_TEXT",
-  minLength: 5,
-  maxLength: 50,
 };
 
 const inquiryTitle: ShortText = {
   id: "inquiryTitle",
+  type: "SHORT_TEXT",
   label: "문의 제목",
   required: true,
-  type: "SHORT_TEXT",
-  minLength: 5,
-  maxLength: 100,
 };
 
 const inquiryContent: LongText = {
   id: "inquiryContent",
+  type: "LONG_TEXT",
   label: "문의 내용",
   required: true,
-  type: "LONG_TEXT",
-  minLength: 10,
-  maxLength: 1000,
 };
 
 export const inquiryFormTemplate: StellarForm = {

@@ -1,8 +1,7 @@
 import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { ControllerRenderProps } from "react-hook-form";
 import { StellarFormField } from "..";
+import { Field } from "./fields";
 
 type StellarFormFieldRendererProps = {
   type: StellarFormField["type"];
@@ -18,9 +17,9 @@ export const StellarFormFieldRenderer = ({
       {(() => {
         switch (fieldType) {
           case "SHORT_TEXT":
-            return <Input {...field} />;
+            return <Field.ShortText {...field} />;
           case "LONG_TEXT":
-            return <Textarea {...field} />;
+            return <Field.LongText {...field} />;
           default:
             return fieldType satisfies never;
         }
