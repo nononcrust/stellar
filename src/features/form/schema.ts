@@ -1,3 +1,4 @@
+import { Form } from "@prisma/client";
 import z from "zod";
 
 type StellarFormFieldBase = z.infer<typeof StellarFormFieldBase>;
@@ -20,9 +21,11 @@ export const LongText = StellarFormFieldBase.extend({
 export type StellarFormField = z.infer<typeof StellarFormField>;
 export const StellarFormField = z.discriminatedUnion("type", [ShortText, LongText]);
 
-export type StellarForm = z.infer<typeof StellarForm>;
-export const StellarForm = z.object({
-  id: z.string(),
-  title: z.string(),
-  fields: z.array(StellarFormField).nonempty(),
-});
+export type StellarForm = {
+  id: Form["id"];
+  title: Form["title"];
+  fields: StellarFormField[];
+};
+
+export type FormAnswers = z.infer<typeof FormAnswers>;
+export const FormAnswers = z.record(z.string(), z.unknown());

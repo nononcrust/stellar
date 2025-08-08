@@ -13,9 +13,13 @@ type ShortTextEditorProps = {
 };
 
 export const ShortTextEditor = ({ field, onFieldChange, onRemoveField }: ShortTextEditorProps) => {
+  const onLabelChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    onFieldChange({ ...field, label: event.target.value });
+  };
+
   return (
     <div className="flex flex-col">
-      <LabelInput className="mb-2" />
+      <LabelInput className="mb-2" value={field.label} onChange={onLabelChange} />
       <Field.ShortText className="text-placeholder" />
       <TextEditorFooter
         field={field}
@@ -33,9 +37,13 @@ type LongTextEditorProps = {
 };
 
 export const LongTextEditor = ({ field, onFieldChange, onRemoveField }: LongTextEditorProps) => {
+  const onLabelChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    onFieldChange({ ...field, label: event.target.value });
+  };
+
   return (
     <div className="flex flex-col">
-      <LabelInput className="mb-2" />
+      <LabelInput className="mb-2" value={field.label} onChange={onLabelChange} />
       <Field.LongText className="text-placeholder" />
       <TextEditorFooter
         field={field}

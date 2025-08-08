@@ -8,7 +8,7 @@ export const applyOptionalConstraint = (zodSchema: z.ZodString, isRequired: bool
 };
 
 const createFormFieldSchema = (field: StellarFormField) => {
-  return registry[field.type].formSchema;
+  return registry[field.type].formSchema(field);
 };
 
 export const createFormSchema = (form: StellarForm) => {

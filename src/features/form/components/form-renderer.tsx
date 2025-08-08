@@ -1,14 +1,16 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
-import { StellarForm } from "../schema";
+import { FormAnswers, StellarForm } from "../schema";
 import { createFormDefaultValues, createFormSchema } from "../utils";
 import { FormFieldRenderer } from "./form-field-renderer";
 
 type FormRendererProps = {
   stellarForm: StellarForm;
-  onSubmit: (data: unknown) => void;
+  onSubmit: (answers: FormAnswers) => void;
 };
 
 export const FormRenderer = ({ stellarForm, onSubmit }: FormRendererProps) => {

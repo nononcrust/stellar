@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { LONG_TEXT_MAX_LENGTH, SHORT_TEXT_MAX_LENGTH } from "../configs";
+import { LONG_TEXT_MAX_LENGTH, SHORT_TEXT_MAX_LENGTH } from "../config";
 
 type LongTextProps = React.ComponentPropsWithRef<typeof Textarea>;
 

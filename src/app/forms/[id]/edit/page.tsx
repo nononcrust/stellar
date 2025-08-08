@@ -7,18 +7,24 @@ import { Button } from "@/components/ui/button";
 import { IconButton } from "@/components/ui/icon-button";
 import { FieldDropdown } from "@/features/form/components/field-dropdown";
 import { FormFieldEditor } from "@/features/form/components/form-field-editor";
-import { TITLE_MAX_LENGTH } from "@/features/form/configs";
+import { TITLE_MAX_LENGTH } from "@/features/form/config";
 import { StellarFormField } from "@/features/form/schema";
-import { inquiryFormTemplate } from "@/features/form/templates";
+import { formDetailQueryOptions, useUpdateFormMutation } from "@/services/dashboard/form";
 import { ErrorBoundary, Suspense } from "@suspensive/react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { PlusIcon } from "lucide-react";
+import { useParams } from "next/navigation";
 import { FormEditorContextProvider, useFormEditor } from "./_hooks/use-form-editor";
 
 const FormEditPage = ErrorBoundary.with(
   { fallback: null },
   Suspense.with({ fallback: null, clientOnly: true }, () => {
+    const params = useParams<{ id: string }>();
+
+    const { data: form } = useSuspenseQuery(formDetailQueryOptions(params.id));
+
     return (
-      <FormEditorContextProvider initialValue={inquiryFormTemplate}>
+      <FormEditorContextProvider initialValue={form}>
         <Header />
         <main className="mx-auto max-w-2xl px-4 py-8">
           <FormEditor />
@@ -35,9 +41,34 @@ const Header = () => {
         <Button variant="secondary" size="small">
           미리보기
         </Button>
-        <Button size="small">저장하기</Button>
+        <SaveButton />
       </div>
     </header>
+  );
+};
+
+const SaveButton = () => {
+  const { stellarForm } = useFormEditor();
+  const updateForm = useUpdateFormMutation();
+
+  const onClick = () => {
+    if (updateForm.isPending) return;
+
+    updateForm.mutate({
+      param: {
+        id: stellarForm.id,
+      },
+      json: {
+        title: stellarForm.title,
+        fields: stellarForm.fields,
+      },
+    });
+  };
+
+  return (
+    <Button size="small" onClick={onClick}>
+      저장하기
+    </Button>
   );
 };
 
