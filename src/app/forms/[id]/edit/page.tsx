@@ -30,7 +30,7 @@ import { GripVerticalIcon, PlusIcon, TextIcon, Trash2Icon, TypeIcon } from "luci
 import { useState } from "react";
 import { FormEditorContextProvider, useFormEditor } from "./_hooks/use-form-editor";
 
-export const FormEditPage = ErrorBoundary.with(
+const FormEditPage = ErrorBoundary.with(
   { fallback: null },
   Suspense.with({ fallback: null }, () => {
     return (
@@ -297,8 +297,6 @@ const DragHandle = ({ id }: DragHandleProps) => {
   );
 };
 
-export default FormEditPage;
-
 type DndProviderProps = {
   items: string[];
   onDragEnd: (activeId: string, overId: string) => void;
@@ -334,3 +332,5 @@ const DndProvider = ({ items, onDragEnd, children, dragOverlay }: DndProviderPro
     </DndContext>
   );
 };
+
+export default FormEditPage;
