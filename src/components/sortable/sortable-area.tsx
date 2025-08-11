@@ -6,11 +6,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import {
-  restrictToParentElement,
-  restrictToVerticalAxis,
-  restrictToWindowEdges,
-} from "@dnd-kit/modifiers";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { useState } from "react";
 
@@ -37,7 +33,7 @@ export const SortableArea = ({
     <div className={className}>
       <DndContext
         sensors={sensors}
-        modifiers={[restrictToVerticalAxis, restrictToWindowEdges, restrictToParentElement]}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
         collisionDetection={closestCenter}
         onDragStart={(event) => setActiveId(event.active.id.toString())}
         onDragEnd={(event) => {

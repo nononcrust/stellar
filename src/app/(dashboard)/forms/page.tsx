@@ -31,7 +31,7 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
   const { data: forms } = useSuspenseQuery(formListQueryOptions());
 
   return (
-    <main className="mx-auto flex max-w-2xl flex-col px-4">
+    <main className="mx-auto flex max-w-4xl flex-col px-4">
       <h1 className="mt-8 text-2xl font-bold">폼 목록</h1>
       <div className="mt-8 flex items-center justify-end">
         <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />} size="small">

@@ -5,7 +5,7 @@ import { ROUTE } from "../../lib/route";
 
 export default function LandingPage() {
   return (
-    <main className="bg-background mx-auto mt-8 max-w-3xl py-16">
+    <main className="mx-auto mt-8 max-w-3xl py-16">
       <TransitionMount>
         <h1 className="text-4xl leading-12 font-extrabold tracking-tighter whitespace-pre-wrap">
           <span className="from-primary-light to-primary w-fit bg-gradient-to-r bg-clip-text py-16 text-transparent">

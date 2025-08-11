@@ -1,4 +1,5 @@
 import { ROUTE } from "@/lib/route";
+import { Form } from "@prisma/client";
 import { nanoid } from "nanoid";
 import z from "zod";
 import { registry } from "./registry";
@@ -52,4 +53,10 @@ export const createEmptyForm = (): StellarForm => {
 
 export const generateFormUrl = ({ id }: { id: string }): string => {
   return process.env.NEXT_PUBLIC_APP_URL + ROUTE.FORM_RESPONSE({ id });
+};
+
+export const allowedFormStatusTransitions: Record<Form["status"], Form["status"][]> = {
+  PENDING: ["ACTIVE"],
+  ACTIVE: ["CLOSED"],
+  CLOSED: [],
 };
