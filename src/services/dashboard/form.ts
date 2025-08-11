@@ -78,5 +78,5 @@ export const useDeleteFormMutation = () => {
 export const FORM_STATUS_LABEL: Record<Form["status"], string> = {
   PENDING: "시작 전",
   ACTIVE: "진행 중",
-  ENDED: "종료됨",
+  CLOSED: "종료됨",
 };
