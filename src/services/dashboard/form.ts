@@ -1,3 +1,4 @@
+import { CreateFormBody, UpdateFormBody } from "@/server/routes/dashboard/form";
 import { Form } from "@prisma/client";
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../client";
@@ -5,18 +6,21 @@ import { api } from "../client";
 export const dashboardFormApi = {
   getFormList: api.dashboard.forms.$get,
   getFormDetail: api.dashboard.forms[":id"].$get,
-  createForm: async () => {
-    const response = await api.dashboard.forms.$post();
+  createForm: async (body: CreateFormBody) => {
+    const response = await api.dashboard.forms.$post({ json: body });
     return response.json();
   },
-  updateForm: api.dashboard.forms[":id"].$patch,
-  deleteForm: api.dashboard.forms[":id"].$delete,
-};
-
-export const useCreateFormMutation = () => {
-  return useMutation({
-    mutationFn: dashboardFormApi.createForm,
-  });
+  updateForm: async ({ id, body }: { body: UpdateFormBody; id: string }) => {
+    const response = await api.dashboard.forms[":id"].$patch({
+      json: body,
+      param: { id },
+    });
+    return response.json();
+  },
+  deleteForm: async ({ id }: { id: string }) => {
+    const response = await api.dashboard.forms[":id"].$delete({ param: { id } });
+    return response.json();
+  },
 };
 
 export const formListQueryOptions = () =>
@@ -37,13 +41,24 @@ export const formDetailQueryOptions = (param: { id: string }) =>
     },
   });
 
+export const useCreateFormMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: dashboardFormApi.createForm,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(formListQueryOptions());
+    },
+  });
+};
+
 export const useUpdateFormMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: dashboardFormApi.updateForm,
-    onSuccess: async (_, { param }) => {
-      await queryClient.invalidateQueries(formDetailQueryOptions(param));
+    onSuccess: async (_, { id }) => {
+      await queryClient.invalidateQueries(formDetailQueryOptions({ id }));
     },
   });
 };
@@ -53,9 +68,9 @@ export const useDeleteFormMutation = () => {
 
   return useMutation({
     mutationFn: dashboardFormApi.deleteForm,
-    onSuccess: async (_, { param }) => {
+    onSuccess: async (_, { id }) => {
       await queryClient.invalidateQueries(formListQueryOptions());
-      queryClient.removeQueries(formDetailQueryOptions(param));
+      queryClient.removeQueries(formDetailQueryOptions({ id }));
     },
   });
 };

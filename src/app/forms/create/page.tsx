@@ -18,11 +18,17 @@ export default function FormCreatePage() {
   const onCreateButtonClick = () => {
     if (createForm.isPending) return;
 
-    createForm.mutate(undefined, {
-      onSuccess: (data) => {
-        router.push(`/forms/${data.form.id}`);
+    createForm.mutate(
+      {
+        title: stellarForm.title,
+        fields: stellarForm.fields,
       },
-    });
+      {
+        onSuccess: (data) => {
+          router.push(`/forms/${data.form.id}`);
+        },
+      },
+    );
   };
 
   return (

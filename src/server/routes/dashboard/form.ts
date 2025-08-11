@@ -5,8 +5,17 @@ import z from "zod";
 import { prisma } from "../../../lib/prisma";
 import { authMiddleware } from "../../middleware";
 
+const FormTitle = z.string().min(1);
+
+export type UpdateFormBody = z.infer<typeof UpdateFormBody>;
 const UpdateFormBody = z.object({
-  title: z.string(),
+  title: FormTitle,
+  fields: StellarFormField.array(),
+});
+
+export type CreateFormBody = z.infer<typeof CreateFormBody>;
+const CreateFormBody = z.object({
+  title: FormTitle,
   fields: StellarFormField.array(),
 });
 
@@ -30,13 +39,14 @@ export const dashboardFormRouter = new Hono()
 
     return c.json(form, 200);
   })
-  .post("/", authMiddleware, async (c) => {
+  .post("/", authMiddleware, zValidator("json", CreateFormBody), async (c) => {
     const session = c.get("session");
+    const body = c.req.valid("json");
 
     const createdForm = await prisma.form.create({
       data: {
-        title: "",
-        fields: [],
+        title: body.title,
+        fields: body.fields,
         userId: session.user.id,
       },
     });

@@ -45,11 +45,7 @@ const FormListItem = ({ form }: FormListItemProps) => {
         if (deleteForm.isPending) return;
 
         deleteForm.mutate(
-          {
-            param: {
-              id: form.id,
-            },
-          },
+          { id: form.id },
           {
             onSuccess: () => {
               close();
@@ -89,7 +85,7 @@ const FormListItem = ({ form }: FormListItemProps) => {
           }
         />
         <DropdownMenu.Content align="end">
-          <DropdownMenu.Item>
+          <DropdownMenu.Item render={<Link href={`/forms/${form.id}/edit`} />}>
             <SquarePenIcon className="size-4" />
             편집하기
           </DropdownMenu.Item>

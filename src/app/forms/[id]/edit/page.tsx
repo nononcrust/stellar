@@ -42,10 +42,8 @@ const SaveButton = ({ form }: SaveButtonProps) => {
 
     updateForm.mutate(
       {
-        param: {
-          id: form.id,
-        },
-        json: {
+        id: form.id,
+        body: {
           title: form.title,
           fields: form.fields,
         },
