@@ -11,7 +11,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { MoreVerticalIcon, PlusIcon, SquarePenIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { overlay } from "overlay-kit";
-import { ROUTE } from "../route";
+import { ROUTE } from "../../lib/route";
 
 const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
   const { data: forms } = useSuspenseQuery(formListQueryOptions());

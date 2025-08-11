@@ -1,10 +1,10 @@
 "use client";
 
-import { ROUTE } from "@/app/route";
 import { Button } from "@/components/ui/button";
 import { FormEditor } from "@/features/form/components/form-editor";
 import { FormEditorPageTemplate } from "@/features/form/components/form-editor-page-template";
 import { StellarForm } from "@/features/form/schema";
+import { ROUTE } from "@/lib/route";
 import { formDetailQueryOptions, useUpdateFormMutation } from "@/services/dashboard/form";
 import { ErrorBoundary, Suspense } from "@suspensive/react";
 import { useSuspenseQuery } from "@tanstack/react-query";

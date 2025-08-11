@@ -1,10 +1,10 @@
 "use client";
 
-import { ROUTE } from "@/app/route";
 import { Button } from "@/components/ui/button";
 import { FormEditor } from "@/features/form/components/form-editor";
 import { FormEditorPageTemplate } from "@/features/form/components/form-editor-page-template";
 import { createEmptyForm } from "@/features/form/utils";
+import { ROUTE } from "@/lib/route";
 import { useCreateFormMutation } from "@/services/dashboard/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

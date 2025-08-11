@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth";
-import { ROUTE } from "../route";
+import { ROUTE } from "../../lib/route";
 
 export default function LoginPage() {
   return (
