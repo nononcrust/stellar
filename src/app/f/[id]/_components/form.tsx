@@ -15,10 +15,8 @@ export const Form = ({ form }: FormProps) => {
     if (createFormResponse.isPending) return;
 
     createFormResponse.mutate({
-      json: {
-        formId: form.id,
-        answers,
-      },
+      formId: form.id,
+      answers,
     });
   };
 
