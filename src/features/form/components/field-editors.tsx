@@ -87,7 +87,7 @@ const LabelInput = ({ className, ...props }: LabelInputProps) => {
   return (
     <input
       placeholder="레이블을 입력해주세요"
-      className={cn("placeholder-placeholder text-sm font-medium outline-hidden", className)}
+      className={cn("placeholder-placeholder text-base font-medium outline-hidden", className)}
       {...props}
     />
   );
