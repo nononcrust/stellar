@@ -1,3 +1,4 @@
+import { ROUTE } from "@/lib/route";
 import { nanoid } from "nanoid";
 import z from "zod";
 import { registry } from "./registry";
@@ -47,4 +48,8 @@ export const createEmptyForm = (): StellarForm => {
   };
 
   return emptyForm;
+};
+
+export const generateFormUrl = ({ id }: { id: string }): string => {
+  return process.env.NEXT_PUBLIC_APP_URL + ROUTE.FORM_RESPONSE({ id });
 };

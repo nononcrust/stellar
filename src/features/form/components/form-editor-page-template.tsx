@@ -20,7 +20,7 @@ type FormEditorPageTemplateHeaderProps = {
 
 const Header = ({ saveButton }: FormEditorPageTemplateHeaderProps) => {
   return (
-    <header className="bg-background sticky top-0 right-0 left-0 z-20 flex h-16 items-center justify-end px-3">
+    <header className="bg-background border-border sticky top-0 right-0 left-0 z-20 flex h-16 items-center justify-end border-b px-3">
       <div className="flex items-center gap-2">
         <Button variant="secondary" size="small">
           미리보기

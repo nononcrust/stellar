@@ -1,18 +1,18 @@
 import { TransitionMount } from "@/components/shared/transition-mount";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { ROUTE } from "../lib/route";
+import { ROUTE } from "../../lib/route";
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <main className="mx-auto mt-8 max-w-5xl py-16">
+    <main className="bg-background mx-auto mt-8 max-w-3xl py-16">
       <TransitionMount>
         <h1 className="text-4xl leading-12 font-extrabold tracking-tighter whitespace-pre-wrap">
           <span className="from-primary-light to-primary w-fit bg-gradient-to-r bg-clip-text py-16 text-transparent">
             스텔라
           </span>
 
-          {" 와 함께\n쉽고 빠르게 폼을 만들어보세요."}
+          {" 와 함께\n쉽고 빠르게 폼을 만드세요."}
         </h1>
       </TransitionMount>
       <TransitionMount delay={0.2}>

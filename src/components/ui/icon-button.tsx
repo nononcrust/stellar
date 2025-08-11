@@ -22,7 +22,7 @@ const iconButtonVariants = tv({
         "border border-primary text-primary bg-primary-lighter hover:bg-primary-lighter-hover dark:bg-primary-darker dark:text-white dark:border-primary-dark dark:hover:bg-primary-darker-hover",
       secondary: "bg-secondary text-main hover:bg-secondary-dark",
       contained: "bg-neutral text-background hover:bg-neutral-dark",
-      outlined: "border border-border text-main hover:bg-background-hover",
+      outlined: "bg-background border border-border text-main hover:bg-background-hover",
       ghost: "hover:bg-background-hover",
       error: "bg-error text-white hover:bg-error-dark",
     },

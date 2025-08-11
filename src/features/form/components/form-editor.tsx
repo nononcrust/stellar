@@ -73,7 +73,7 @@ const FieldItem = ({ field }: FieldItemProps) => {
     <SortableItem id={field.id}>
       <div className="flex items-start gap-2">
         <DragHandle id={field.id} />
-        <div className="flex-1">
+        <div className="border-border bg-background flex flex-1 flex-col rounded-md border p-6">
           <FormFieldEditor field={field} onFieldChange={updateField} onRemoveField={removeField} />
         </div>
       </div>

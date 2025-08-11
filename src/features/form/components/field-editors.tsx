@@ -74,7 +74,7 @@ const TextEditorFooter = ({ field, onRequiredChange, onRemoveField }: TextEditor
           variant="ghost"
           onClick={() => onRemoveField(field.id)}
         >
-          <Trash2Icon className="text-sub size-4" />
+          <Trash2Icon className="text-subtle size-4" />
         </IconButton>
       </Tooltip>
     </div>
