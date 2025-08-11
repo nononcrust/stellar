@@ -11,6 +11,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { MoreVerticalIcon, PlusIcon, SquarePenIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { overlay } from "overlay-kit";
+import { ROUTE } from "../route";
 
 const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
   const { data: forms } = useSuspenseQuery(formListQueryOptions());
@@ -22,7 +23,7 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
           <FormListItem key={form.id} form={form} />
         ))}
       </ul>
-      <Button render={<Link href="/forms/create" />}>
+      <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
         <PlusIcon className="size-4" />폼 생성하기
       </Button>
     </main>
@@ -75,7 +76,7 @@ const FormListItem = ({ form }: FormListItemProps) => {
 
   return (
     <li key={form.id}>
-      <Link href={`/forms/${form.id}`}>{form.title}</Link>
+      <Link href={ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}>{form.title}</Link>
       <DropdownMenu>
         <DropdownMenu.Trigger
           render={
@@ -85,7 +86,7 @@ const FormListItem = ({ form }: FormListItemProps) => {
           }
         />
         <DropdownMenu.Content align="end">
-          <DropdownMenu.Item render={<Link href={`/forms/${form.id}/edit`} />}>
+          <DropdownMenu.Item render={<Link href={ROUTE.DASHBOARD.FORM.EDIT({ id: form.id })} />}>
             <SquarePenIcon className="size-4" />
             편집하기
           </DropdownMenu.Item>

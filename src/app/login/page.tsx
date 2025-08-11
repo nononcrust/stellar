@@ -1,19 +1,26 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth";
+import { ROUTE } from "../route";
 
 export default function LoginPage() {
   return (
-    <main className="flex h-dvh items-center justify-center">
-      <button
+    <main className="mx-auto flex h-dvh max-w-md items-center justify-center">
+      <Button
+        className="w-full"
+        variant="outlined"
+        size="large"
         onClick={() =>
           authClient.signIn.social({
             provider: "google",
+            callbackURL: ROUTE.DASHBOARD.FORM.LIST,
           })
         }
       >
         <GoogleLogo />
-      </button>
+        구글 계정으로 로그인
+      </Button>
     </main>
   );
 }

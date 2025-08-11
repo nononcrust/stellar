@@ -1,5 +1,6 @@
 "use client";
 
+import { ROUTE } from "@/app/route";
 import { Button } from "@/components/ui/button";
 import { FormEditor } from "@/features/form/components/form-editor";
 import { FormEditorPageTemplate } from "@/features/form/components/form-editor-page-template";
@@ -50,7 +51,7 @@ const SaveButton = ({ form }: SaveButtonProps) => {
       },
       {
         onSuccess: () => {
-          router.push(`/forms/${form.id}`);
+          router.push(ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id }));
         },
       },
     );

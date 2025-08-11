@@ -1,5 +1,6 @@
 "use client";
 
+import { ROUTE } from "@/app/route";
 import { Button } from "@/components/ui/button";
 import { FormEditor } from "@/features/form/components/form-editor";
 import { FormEditorPageTemplate } from "@/features/form/components/form-editor-page-template";
@@ -25,7 +26,7 @@ export default function FormCreatePage() {
       },
       {
         onSuccess: (data) => {
-          router.push(`/forms/${data.form.id}`);
+          router.push(ROUTE.DASHBOARD.FORM.DETAIL({ id: data.form.id }));
         },
       },
     );
