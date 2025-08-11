@@ -5,7 +5,7 @@ export const ROUTE = {
     FORM: {
       LIST: "/forms",
       DETAIL: ({ id }: { id: string }) => `/forms/${id}`,
-      CREATE: "/forms/new",
+      CREATE: "/forms/create",
       EDIT: ({ id }: { id: string }) => `/forms/${id}/edit`,
     },
   },

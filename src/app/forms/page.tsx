@@ -18,14 +18,18 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
 
   return (
     <main className="mx-auto mt-8 max-w-2xl px-4">
-      <ul>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">폼 목록</h1>
+        <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />} size="small">
+          <PlusIcon className="size-4" />
+          새로 만들기
+        </Button>
+      </div>
+      <ul className="mt-4 flex flex-col gap-2">
         {forms.map((form) => (
           <FormListItem key={form.id} form={form} />
         ))}
       </ul>
-      <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
-        <PlusIcon className="size-4" />폼 생성하기
-      </Button>
     </main>
   );
 });
@@ -75,12 +79,22 @@ const FormListItem = ({ form }: FormListItemProps) => {
   };
 
   return (
-    <li key={form.id}>
-      <Link href={ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}>{form.title}</Link>
+    <li className="relative flex">
+      <Link
+        className="border-border flex-1 rounded-lg border p-4"
+        href={ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}
+      >
+        <span className="font-medium">{form.title || "제목없는 폼"}</span>
+      </Link>
       <DropdownMenu>
         <DropdownMenu.Trigger
           render={
-            <IconButton aria-label="메뉴" size="xsmall" variant="ghost">
+            <IconButton
+              className="absolute top-1/2 right-3 -translate-y-1/2"
+              aria-label="메뉴"
+              size="xsmall"
+              variant="ghost"
+            >
               <MoreVerticalIcon className="size-4" />
             </IconButton>
           }

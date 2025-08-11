@@ -6,7 +6,7 @@ import { ROUTE } from "../../lib/route";
 
 export default function LoginPage() {
   return (
-    <main className="mx-auto flex h-dvh max-w-md items-center justify-center">
+    <main className="mx-auto flex h-dvh max-w-xs items-center justify-center">
       <Button
         className="w-full"
         variant="outlined"
