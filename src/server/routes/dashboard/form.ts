@@ -41,7 +41,7 @@ export const dashboardFormRouter = new Hono()
       },
     });
 
-    return c.json(createdForm, 201);
+    return c.json({ form: createdForm }, 201);
   })
   .patch("/:id", authMiddleware, zValidator("json", UpdateFormBody), async (c) => {
     const session = c.get("session");
@@ -64,5 +64,20 @@ export const dashboardFormRouter = new Hono()
       },
     });
 
-    return c.json(updatedForm, 200);
+    return c.json({ form: updatedForm }, 200);
+  })
+  .delete("/:id", authMiddleware, async (c) => {
+    const session = c.get("session");
+
+    const form = await prisma.form.findUniqueOrThrow({
+      where: { id: c.req.param("id") },
+    });
+
+    if (form.userId !== session.user.id) {
+      return c.json({ message: "자신이 작성한 폼만 삭제할 수 있습니다." }, 403);
+    }
+
+    const deletedForm = await prisma.form.delete({ where: { id: form.id } });
+
+    return c.json({ form: deletedForm }, 200);
   });

@@ -12,13 +12,25 @@ const DropdownMenu = ({ children, ...props }: DropdownMenuProps) => {
   return <DropdownMenuBase.Root {...props}>{children}</DropdownMenuBase.Root>;
 };
 
-type DropdownMenuContentProps = DropdownMenuBase.Popup.Props;
+type DropdownMenuContentProps = DropdownMenuBase.Popup.Props & {
+  align?: DropdownMenuBase.Positioner.Props["align"];
+};
 
-const DropdownMenuContent = ({ className, children, ...props }: DropdownMenuContentProps) => {
+const DropdownMenuContent = ({
+  className,
+  children,
+  align,
+  ...props
+}: DropdownMenuContentProps) => {
   return (
     <DropdownMenuBase.Portal>
       <DropdownMenuBase.Backdrop />
-      <DropdownMenuBase.Positioner className="outline-hidden" sideOffset={4} side="bottom">
+      <DropdownMenuBase.Positioner
+        className="outline-hidden"
+        sideOffset={4}
+        side="bottom"
+        align={align}
+      >
         <DropdownMenuBase.Popup
           className={cn(
             "border-border bg-background text-main z-50 min-w-40 rounded-md border p-1 shadow-lg outline-hidden",

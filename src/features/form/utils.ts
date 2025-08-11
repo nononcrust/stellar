@@ -36,3 +36,15 @@ export const createEmptyField = (type: StellarFormField["type"]): StellarFormFie
 
   return emptyField;
 };
+
+export const createEmptyForm = (): StellarForm => {
+  const id = nanoid();
+
+  const emptyForm: StellarForm = {
+    id,
+    title: "",
+    fields: [],
+  };
+
+  return emptyForm;
+};
