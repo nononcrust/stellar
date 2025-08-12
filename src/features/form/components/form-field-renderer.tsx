@@ -17,6 +17,10 @@ export const FormFieldRenderer = ({ type: fieldType, field }: FormFieldRendererP
             return <Field.ShortText {...field} />;
           case "LONG_TEXT":
             return <Field.LongText {...field} />;
+          case "EMAIL":
+            return <Field.Email {...field} />;
+          case "PHONE_NUMBER":
+            return <Field.PhoneNumber {...field} />;
           default:
             return fieldType satisfies never;
         }

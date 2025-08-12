@@ -119,7 +119,9 @@ const FormListItem = ({ form }: FormListItemProps) => {
               <Dialog.Title>링크 복사하기</Dialog.Title>
               <div className="bg-background-100 mt-2 mb-2 flex items-center rounded-md p-3">
                 <div className="scrollbar-hide flex items-center overflow-x-auto">
-                  <span className="text-sub text-sm">{generateFormUrl({ id: form.id })}</span>
+                  <span className="text-sub text-sm whitespace-nowrap">
+                    {generateFormUrl({ id: form.id })}
+                  </span>
                 </div>
                 <CopyToClipboard text={generateFormUrl({ id: form.id })} />
               </div>

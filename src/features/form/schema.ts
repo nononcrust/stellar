@@ -18,8 +18,23 @@ export const LongText = StellarFormFieldBase.extend({
   type: z.literal("LONG_TEXT"),
 });
 
+export type Email = z.infer<typeof Email>;
+export const Email = StellarFormFieldBase.extend({
+  type: z.literal("EMAIL"),
+});
+
+export type PhoneNumber = z.infer<typeof PhoneNumber>;
+export const PhoneNumber = StellarFormFieldBase.extend({
+  type: z.literal("PHONE_NUMBER"),
+});
+
 export type StellarFormField = z.infer<typeof StellarFormField>;
-export const StellarFormField = z.discriminatedUnion("type", [ShortText, LongText]);
+export const StellarFormField = z.discriminatedUnion("type", [
+  ShortText,
+  LongText,
+  Email,
+  PhoneNumber,
+]);
 
 export type StellarForm = {
   id: Form["id"];

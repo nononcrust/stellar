@@ -5,7 +5,10 @@ import z from "zod";
 import { registry } from "./registry";
 import { StellarForm, StellarFormField } from "./schema";
 
-export const applyOptionalConstraint = (zodSchema: z.ZodString, isRequired: boolean) => {
+export const applyOptionalConstraint = (
+  zodSchema: z.ZodString | z.ZodEmail,
+  isRequired: boolean,
+) => {
   return isRequired ? zodSchema.min(1, "필수 항목입니다.") : zodSchema.optional();
 };
 
