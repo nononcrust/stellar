@@ -1,23 +1,26 @@
-import { LongText, ShortText, StellarForm } from "./schema";
+import { Email, LongText, PhoneNumber, ShortText, StellarForm } from "./schema";
 
 const name: ShortText = {
   id: "name",
   type: "SHORT_TEXT",
   label: "이름",
+  description: "",
   required: true,
 };
 
-const phoneNumber: ShortText = {
+const phoneNumber: PhoneNumber = {
   id: "phoneNumber",
-  type: "SHORT_TEXT",
+  type: "PHONE_NUMBER",
   label: "전화번호",
+  description: "",
   required: true,
 };
 
-const email: ShortText = {
+const email: Email = {
   id: "email",
-  type: "SHORT_TEXT",
+  type: "EMAIL",
   label: "이메일",
+  description: "",
   required: true,
 };
 
@@ -25,6 +28,7 @@ const inquiryTitle: ShortText = {
   id: "inquiryTitle",
   type: "SHORT_TEXT",
   label: "문의 제목",
+  description: "",
   required: true,
 };
 
@@ -32,6 +36,7 @@ const inquiryContent: LongText = {
   id: "inquiryContent",
   type: "LONG_TEXT",
   label: "문의 내용",
+  description: "",
   required: true,
 };
 

@@ -5,6 +5,7 @@ type StellarFormFieldBase = z.infer<typeof StellarFormFieldBase>;
 const StellarFormFieldBase = z.object({
   id: z.string(),
   label: z.string(),
+  description: z.string(),
   required: z.boolean(),
 });
 
@@ -28,12 +29,28 @@ export const PhoneNumber = StellarFormFieldBase.extend({
   type: z.literal("PHONE_NUMBER"),
 });
 
+export const Number = StellarFormFieldBase.extend({
+  type: z.literal("NUMBER"),
+});
+
+export const Dropdown = StellarFormFieldBase.extend({
+  type: z.literal("DROPDOWN"),
+  options: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    }),
+  ),
+});
+
 export type StellarFormField = z.infer<typeof StellarFormField>;
 export const StellarFormField = z.discriminatedUnion("type", [
   ShortText,
   LongText,
   Email,
   PhoneNumber,
+  Number,
+  Dropdown,
 ]);
 
 export type StellarForm = {

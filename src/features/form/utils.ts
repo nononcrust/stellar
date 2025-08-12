@@ -2,7 +2,7 @@ import { ROUTE } from "@/lib/route";
 import { Form } from "@prisma/client";
 import { nanoid } from "nanoid";
 import z from "zod";
-import { registry } from "./registry";
+import { fieldRegistry } from "./registry";
 import { StellarForm, StellarFormField } from "./schema";
 
 export const applyOptionalConstraint = (
@@ -13,7 +13,7 @@ export const applyOptionalConstraint = (
 };
 
 const createFormFieldSchema = (field: StellarFormField) => {
-  return registry[field.type].formSchema(field);
+  return fieldRegistry[field.type].formSchema(field);
 };
 
 export const createFormSchema = (form: StellarForm) => {
@@ -25,19 +25,21 @@ export const createFormSchema = (form: StellarForm) => {
 export const createFormDefaultValues = (fields: StellarForm["fields"]) => {
   return Object.fromEntries(
     fields.map((field) => {
-      return [field.id, registry[field.type].defaultValue];
+      return [field.id, fieldRegistry[field.type].defaultValue];
     }),
   );
 };
 
-export const createEmptyField = (type: StellarFormField["type"]): StellarFormField => {
+export const createEmptyField = <T extends StellarFormField["type"]>(
+  type: T,
+): Extract<StellarFormField, { type: T }> => {
   const id = nanoid();
 
-  const emptyField: StellarFormField = {
+  const emptyField = {
     id,
     type,
-    ...registry[type].emptyField,
-  };
+    ...fieldRegistry[type].emptyField(),
+  } as Extract<StellarFormField, { type: T }>;
 
   return emptyField;
 };

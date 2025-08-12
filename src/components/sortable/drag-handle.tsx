@@ -1,17 +1,19 @@
+import { cn } from "@/lib/utils";
 import { useSortable } from "@dnd-kit/sortable";
 import { GripVerticalIcon } from "lucide-react";
 
 type DragHandleProps = {
+  className?: string;
   id: string;
 };
 
-export const DragHandle = ({ id }: DragHandleProps) => {
+export const DragHandle = ({ className, id }: DragHandleProps) => {
   const { listeners, attributes, setActivatorNodeRef } = useSortable({ id });
 
   return (
     <button
       ref={setActivatorNodeRef}
-      className="hover:bg-background-hover text-subtle rounded-[4px] px-[0.5px] py-[3px]"
+      className={cn("text-subtle rounded-[4px] px-[0.5px] py-[3px]", className)}
       aria-label="순서 변경"
       {...attributes}
       {...listeners}

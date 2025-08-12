@@ -6,11 +6,10 @@ const Textarea = ({ className, "aria-invalid": ariaInvalid, ...props }: Textarea
   return (
     <textarea
       className={cn(
-        "border-border text-main bg-background flex min-h-[5rem] w-full rounded-md border px-3 py-2 text-sm shadow-xs",
-        "field-sizing-content",
+        "border-border text-main bg-background placeholder-placeholder flex min-h-[6rem] w-full rounded-md border px-3 py-2 text-sm shadow-xs",
+        "field-sizing-content resize-none",
         "focus-visible:focus-input-ring",
         "disabled:pointer-events-none disabled:opacity-50",
-        "read-only:bg-background-100",
         ariaInvalid && "focus-visible:focus-input-ring-error border-error",
         className,
       )}

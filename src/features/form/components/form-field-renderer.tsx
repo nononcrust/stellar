@@ -4,15 +4,15 @@ import { StellarFormField } from "../schema";
 import { Field } from "./fields";
 
 type FormFieldRendererProps = {
-  type: StellarFormField["type"];
+  formField: StellarFormField;
   field: ControllerRenderProps<Record<string, string | undefined>, string>;
 };
 
-export const FormFieldRenderer = ({ type: fieldType, field }: FormFieldRendererProps) => {
+export const FormFieldRenderer = ({ formField, field }: FormFieldRendererProps) => {
   return (
     <Form.Control>
       {(() => {
-        switch (fieldType) {
+        switch (formField.type) {
           case "SHORT_TEXT":
             return <Field.ShortText {...field} />;
           case "LONG_TEXT":
@@ -21,8 +21,12 @@ export const FormFieldRenderer = ({ type: fieldType, field }: FormFieldRendererP
             return <Field.Email {...field} />;
           case "PHONE_NUMBER":
             return <Field.PhoneNumber {...field} />;
+          case "NUMBER":
+            return <Field.Number {...field} />;
+          case "DROPDOWN":
+            return <Field.Dropdown {...field} options={formField.options} />;
           default:
-            return fieldType satisfies never;
+            return formField satisfies never;
         }
       })()}
     </Form.Control>

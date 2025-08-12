@@ -4,7 +4,7 @@ import { Tag } from "@/components/ui/tag";
 import { Tooltip } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Trash2Icon } from "lucide-react";
-import { registry } from "../registry";
+import { fieldRegistry } from "../registry";
 import { StellarFormField } from "../schema";
 import { FieldEditor } from "./field-editors";
 
@@ -19,10 +19,15 @@ export const FormFieldEditor = ({ field, onFieldChange, onRemoveField }: FormFie
     onFieldChange({ ...field, label: event.target.value });
   };
 
+  const onDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    onFieldChange({ ...field, description: event.target.value });
+  };
+
   return (
     <div className="flex flex-col">
       <TextEditorHeader field={field} />
       <LabelInput className="mb-2" value={field.label} onChange={onLabelChange} />
+      <DescriptionInput className="mb-3" value={field.description} onChange={onDescriptionChange} />
       {(() => {
         switch (field.type) {
           case "SHORT_TEXT":
@@ -33,6 +38,10 @@ export const FormFieldEditor = ({ field, onFieldChange, onRemoveField }: FormFie
             return <FieldEditor.Email />;
           case "PHONE_NUMBER":
             return <FieldEditor.PhoneNumber />;
+          case "NUMBER":
+            return <FieldEditor.Number />;
+          case "DROPDOWN":
+            return <FieldEditor.Dropdown field={field} onFieldChange={onFieldChange} />;
           default:
             field satisfies never;
         }
@@ -53,7 +62,7 @@ type TextEditorHeaderProps = {
 const TextEditorHeader = ({ field }: TextEditorHeaderProps) => {
   return (
     <Tag className="mb-3 w-fit" variant="secondary">
-      {registry[field.type].name}
+      {fieldRegistry[field.type].name}
     </Tag>
   );
 };
@@ -97,17 +106,17 @@ const LabelInput = ({ className, ...props }: LabelInputProps) => {
   );
 };
 
-// type DescriptionInputProps = React.ComponentPropsWithRef<"input">;
+type DescriptionInputProps = React.ComponentPropsWithRef<"input">;
 
-// const DescriptionInput = ({ className, ...props }: DescriptionInputProps) => {
-//   return (
-//     <input
-//       placeholder="설명을 입력해주세요"
-//       className={cn(
-//         "placeholder-placeholder text-sub text-[0.8125rem] font-medium outline-hidden",
-//         className,
-//       )}
-//       {...props}
-//     />
-//   );
-// };
+const DescriptionInput = ({ className, ...props }: DescriptionInputProps) => {
+  return (
+    <input
+      placeholder="설명을 입력해주세요"
+      className={cn(
+        "placeholder-placeholder text-sub text-[0.8125rem] font-medium outline-hidden",
+        className,
+      )}
+      {...props}
+    />
+  );
+};

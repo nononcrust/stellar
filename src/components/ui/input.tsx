@@ -10,7 +10,6 @@ const Input = ({ className, "aria-invalid": ariaInvalid, ...props }: InputProps)
         "focus-visible:focus-input-ring",
         "placeholder-placeholder",
         "disabled:bg-background-100 disabled:pointer-events-none disabled:opacity-50",
-        "read-only:bg-background-100",
         ariaInvalid && "focus-visible:focus-input-ring-error border-error",
         className,
       )}

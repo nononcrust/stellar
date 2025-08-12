@@ -23,7 +23,7 @@ export const SelectChevronDownIcon = ({ className }: SelectChevronDownIconProps)
     <ChevronDownIcon
       strokeWidth={2}
       className={cn(
-        "text-sub size-4.5 pointer-events-none absolute right-3 top-1/2 shrink-0 -translate-y-1/2",
+        "text-sub pointer-events-none absolute top-1/2 right-3 size-4.5 shrink-0 -translate-y-1/2",
         className,
       )}
     />
@@ -59,7 +59,7 @@ const Select = ({
         {...props}
       >
         <SelectBase.Value
-          className="has-data-placeholder:text-sub truncate"
+          className="has-data-placeholder:text-placeholder truncate has-data-placeholder:font-normal"
           placeholder={placeholder ? <span data-placeholder>{placeholder}</span> : null}
         />
         <SelectBase.Icon>
@@ -79,10 +79,10 @@ const SelectContent = ({ className, children, ...props }: SelectContentProps) =>
       <SelectBase.Positioner className="outline-hidden" alignItemWithTrigger={false} sideOffset={4}>
         <SelectBase.Popup
           className={cn(
-            "border-border bg-background text-main outline-hidden relative z-50 overflow-y-auto overflow-x-hidden rounded-md border p-1 shadow-lg",
-            "max-h-[var(--available-height)] min-w-[8rem] max-w-[calc(100vw-0.75rem)]",
+            "border-border bg-background text-main relative z-50 overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-lg outline-hidden",
+            "max-h-[var(--available-height)] max-w-[calc(100vw-0.75rem)] min-w-[8rem]",
             "w-full min-w-[var(--anchor-width)]",
-            "data-starting-style:opacity-0 data-open:duration-150",
+            "data-open:duration-150 data-starting-style:opacity-0",
             "data-[side=top]:data-starting-style:translate-y-[0.5rem]",
             "data-[side=bottom]:data-starting-style:translate-y-[-0.5rem]",
             className,
@@ -131,8 +131,8 @@ const SelectOption = ({ className, children, ...props }: SelectOptionProps) => {
 
 export const SelectItemIndicator = () => {
   return (
-    <span className="bg-primary size-4.5 absolute right-3 flex items-center justify-center rounded-full text-white">
-      <CheckIcon className="stroke-3 size-3" />
+    <span className="bg-primary absolute right-3 flex size-4.5 items-center justify-center rounded-full text-white">
+      <CheckIcon className="size-3 stroke-3" />
     </span>
   );
 };

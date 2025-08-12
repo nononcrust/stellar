@@ -57,7 +57,7 @@ const TitleInput = () => {
       onChange={(e) => changeTitle(e.target.value)}
       maxLength={TITLE_MAX_LENGTH}
       placeholder="폼 제목"
-      className="placeholder-placeholder text-2xl font-semibold outline-hidden"
+      className="placeholder-placeholder ml-7 text-2xl font-semibold outline-hidden"
     />
   );
 };
@@ -71,7 +71,7 @@ const FieldItem = ({ field }: FieldItemProps) => {
 
   return (
     <SortableItem id={field.id}>
-      <div className="flex items-start gap-2">
+      <div className="relative flex items-start gap-2">
         <DragHandle id={field.id} />
         <div className="border-border bg-background flex flex-1 flex-col rounded-md border p-6">
           <FormFieldEditor field={field} onFieldChange={updateField} onRemoveField={removeField} />

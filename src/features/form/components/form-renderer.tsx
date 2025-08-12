@@ -5,7 +5,7 @@ import { Form } from "@/components/ui/form";
 import { Tag } from "@/components/ui/tag";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { FormAnswers, StellarForm } from "../schema";
 import { createFormDefaultValues, createFormSchema } from "../utils";
 import { FormFieldRenderer } from "./form-field-renderer";
@@ -44,18 +44,16 @@ export const FormRenderer = ({ stellarForm, onSubmit }: FormRendererProps) => {
             required={formField.required}
           >
             <div className="bg-background border-border flex flex-col rounded-md p-5">
-              <Form.Label>{formField.label}</Form.Label>
+              <div className="mb-3 flex flex-col gap-1">
+                <Form.Label>{formField.label}</Form.Label>
+                {formField.description.length > 0 && (
+                  <Form.Description>{formField.description}</Form.Description>
+                )}
+              </div>
               <Controller
                 name={formField.id}
                 control={form.control}
-                render={({ field }) => (
-                  <FormFieldRenderer
-                    type={formField.type}
-                    field={
-                      field as ControllerRenderProps<Record<string, string | undefined>, string>
-                    }
-                  />
-                )}
+                render={({ field }) => <FormFieldRenderer formField={formField} field={field} />}
               />
               <Form.ErrorMessage>{form.formState.errors[formField.id]?.message}</Form.ErrorMessage>
             </div>
