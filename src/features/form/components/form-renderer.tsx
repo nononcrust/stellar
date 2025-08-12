@@ -26,40 +26,36 @@ export const FormRenderer = ({ stellarForm, onSubmit }: FormRendererProps) => {
   });
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="bg-background rounded-md p-5">
-        <h1 className="text-2xl font-semibold">{stellarForm.title}</h1>
-        <p className="text-subtle mt-2 text-sm font-medium">
-          <Tag className="mr-2" variant="secondary">
-            진행기간
-          </Tag>
-          {format(DUMMY_CREATED_AT, "yyyy.MM.dd")} ~
-        </p>
-      </div>
-      <Form className="mb-8 flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+    <div className="flex flex-col gap-2">
+      <h1 className="text-2xl font-semibold">{stellarForm.title}</h1>
+      <p className="text-subtle text-sm font-medium">
+        <Tag className="mr-2" variant="secondary">
+          진행기간
+        </Tag>
+        {format(DUMMY_CREATED_AT, "yyyy.MM.dd")} ~
+      </p>
+      <Form className="mt-8 mb-8 flex flex-col gap-8" onSubmit={form.handleSubmit(onSubmit)}>
         {stellarForm.fields.map((formField) => (
           <Form.Item
             key={formField.id}
             error={!!form.formState.errors[formField.id]}
             required={formField.required}
           >
-            <div className="bg-background border-border flex flex-col rounded-md p-5">
-              <div className="mb-3 flex flex-col gap-1">
-                <Form.Label>{formField.label}</Form.Label>
-                {formField.description.length > 0 && (
-                  <Form.Description>{formField.description}</Form.Description>
-                )}
-              </div>
-              <Controller
-                name={formField.id}
-                control={form.control}
-                render={({ field }) => <FormFieldRenderer formField={formField} field={field} />}
-              />
-              <Form.ErrorMessage>{form.formState.errors[formField.id]?.message}</Form.ErrorMessage>
+            <div className="mb-3 flex flex-col gap-1">
+              <Form.Label>{formField.label}</Form.Label>
+              {formField.description.length > 0 && (
+                <Form.Description>{formField.description}</Form.Description>
+              )}
             </div>
+            <Controller
+              name={formField.id}
+              control={form.control}
+              render={({ field }) => <FormFieldRenderer formField={formField} field={field} />}
+            />
+            <Form.ErrorMessage>{form.formState.errors[formField.id]?.message}</Form.ErrorMessage>
           </Form.Item>
         ))}
-        <Button className="mt-4 w-[140px] self-center" type="submit" size="xlarge">
+        <Button variant="contained" className="mt-4 self-start" type="submit" size="large">
           제출하기
         </Button>
       </Form>

@@ -111,9 +111,9 @@ const SelectGroupLabel = ({ className, children, ...props }: SelectGroupLabelPro
 
 export const selectItemStyle = {
   base: cn(
-    "outline-hidden relative flex w-full cursor-pointer select-none items-center py-2 pl-3 pr-8 text-sm font-medium rounded-[0.375rem]",
+    "outline-hidden relative flex w-full cursor-pointer select-none items-center py-2 pl-3 pr-8 text-sm font-medium rounded-[0.375rem] text-sub",
     "data-highlighted:bg-background-hover data-highlighted:text-main",
-    "data-selected:text-primary data-selected:font-semibold",
+    "data-selected:text-neutral data-selected:font-semibold",
     "data-disabled:pointer-events-none data-disabled:opacity-50",
   ),
 };
@@ -131,7 +131,7 @@ const SelectOption = ({ className, children, ...props }: SelectOptionProps) => {
 
 export const SelectItemIndicator = () => {
   return (
-    <span className="bg-primary absolute right-3 flex size-4.5 items-center justify-center rounded-full text-white">
+    <span className="bg-neutral absolute right-3 flex size-4.5 items-center justify-center rounded-full text-white">
       <CheckIcon className="size-3 stroke-3" />
     </span>
   );
