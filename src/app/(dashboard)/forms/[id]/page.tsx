@@ -18,7 +18,6 @@ const FormDetailPage = Suspense.with({ fallback: null, clientOnly: true }, () =>
       limit: 10,
     }),
   );
-  console.log("formResponses", formResponses);
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col px-4">

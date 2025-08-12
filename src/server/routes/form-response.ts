@@ -32,7 +32,6 @@ export const formResponseRouter = new Hono()
   })
   .get("/", zValidator("query", GetFormResponseListQuery), async (c) => {
     const { page, limit } = c.req.valid("query");
-    console.log("page, limit", page, limit);
 
     const formResponses = await prisma.formResponse.findMany({
       skip: (page - 1) * limit,
