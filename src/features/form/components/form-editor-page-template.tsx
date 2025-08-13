@@ -1,3 +1,4 @@
+import { Header as HeaderBase } from "@/components/layouts/header";
 import { Button } from "@/components/ui/button";
 
 type FormEditorPageTemplateProps = {
@@ -20,14 +21,14 @@ type FormEditorPageTemplateHeaderProps = {
 
 const Header = ({ saveButton }: FormEditorPageTemplateHeaderProps) => {
   return (
-    <header className="bg-background border-border sticky top-0 right-0 left-0 z-20 flex h-16 items-center justify-end border-b px-3">
+    <HeaderBase className="justify-end">
       <div className="flex items-center gap-2">
-        <Button variant="secondary" size="small">
+        <Button variant="outlined" size="small">
           미리보기
         </Button>
         {saveButton}
       </div>
-    </header>
+    </HeaderBase>
   );
 };
 

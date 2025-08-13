@@ -91,7 +91,7 @@ const Dropdown = ({ value, onChange, options, ...props }: DropdownProps) => {
   return (
     <Select placeholder="답변을 선택해주세요." value={value} onChange={onChange} {...props}>
       {options.map((option) => (
-        <Select.Option key={option.value} value={option.value}>
+        <Select.Option key={option.value} value={option.label}>
           {option.label}
         </Select.Option>
       ))}

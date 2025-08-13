@@ -18,6 +18,7 @@ import {
   CheckIcon,
   CopyIcon,
   ExternalLinkIcon,
+  Link2Icon,
   MoreVerticalIcon,
   PlusIcon,
   SquarePenIcon,
@@ -32,14 +33,17 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col px-4">
-      <h1 className="mt-8 text-2xl font-bold">폼 목록</h1>
-      <div className="mt-8 flex items-center justify-end">
-        <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />} size="small">
+      <h1 className="mt-8 text-2xl font-bold">나의 폼 목록</h1>
+      <p className="text-subtle mt-2">
+        내가 만든 폼 목록을 확인하고, 새로 만들거나 기존 폼을 편집할 수 있어요.
+      </p>
+      <div className="mt-4 flex items-center justify-end">
+        <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
           <PlusIcon className="size-4" />
           새로 만들기
         </Button>
       </div>
-      <ul className="mt-4 flex flex-col gap-2">
+      <ul className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
         {forms.map((form) => (
           <FormListItem key={form.id} form={form} />
         ))}
@@ -96,21 +100,26 @@ const FormListItem = ({ form }: FormListItemProps) => {
 
   return (
     <li className="relative flex">
-      <Link className="flex flex-1 rounded-md" href={ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}>
-        <Card className="flex-1 flex-row">
-          <FormStatusTag className="mr-2" status={form.status} />
-          <span className="font-semibold">{form.title}</span>
+      <Link
+        className="flex flex-1 rounded-md transition-shadow"
+        href={ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}
+      >
+        <Card className="flex-1 p-6">
+          <span className="font-semibold">
+            <FormStatusTag className="w-fitZ mr-2" status={form.status} />
+            {form.title}
+          </span>
+          <span className="text-subtle mt-4 text-[13px]">
+            마지막 수정 {format(form.createdAt, "yyyy.MM.dd")}
+          </span>
         </Card>
       </Link>
-      <div className="absolute top-1/2 right-3 flex -translate-y-1/2 items-center gap-2">
-        <span className="text-subtle mr-2 text-[13px]">
-          마지막 수정 {format(form.createdAt, "yyyy.MM.dd")}
-        </span>
+      <div className="absolute top-5 right-5 flex items-center gap-1">
         <Dialog>
           <Dialog.Trigger
             render={
               <IconButton aria-label="링크 복사하기" size="xsmall" variant="ghost">
-                <ExternalLinkIcon className="size-4" />
+                <Link2Icon className="size-4" />
               </IconButton>
             }
           />
@@ -128,6 +137,16 @@ const FormListItem = ({ form }: FormListItemProps) => {
             </Dialog.Header>
           </Dialog.Content>
         </Dialog>
+        <IconButton
+          size="xsmall"
+          variant="ghost"
+          aria-label="폼 링크 열기"
+          render={
+            <Link href={generateFormUrl({ id: form.id })} target="_blank" rel="noopener noreferrer">
+              <ExternalLinkIcon className="size-4" />
+            </Link>
+          }
+        />
         <DropdownMenu>
           <DropdownMenu.Trigger
             render={

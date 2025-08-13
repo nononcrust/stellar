@@ -6,6 +6,7 @@ import { FieldDropdown } from "@/features/form/components/field-dropdown";
 import { FormFieldEditor } from "@/features/form/components/form-field-editor";
 import { TITLE_MAX_LENGTH } from "@/features/form/config";
 import { StellarForm, StellarFormField } from "@/features/form/schema";
+import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
 import { FormEditorContext, useFormEditor } from "../hooks/use-form-editor";
 
@@ -18,9 +19,9 @@ export const FormEditor = ({ value, onChange }: FormEditorProps) => {
   return (
     <FormEditorContext value={{ value, onChange }}>
       <div>
-        <TitleInput />
+        <TitleInput className="ml-6" />
         <Content />
-        <AddFieldButton />
+        <AddFieldButton className="ml-6" />
       </div>
     </FormEditorContext>
   );
@@ -48,7 +49,11 @@ const Content = () => {
   );
 };
 
-const TitleInput = () => {
+type TitleInputProps = {
+  className?: string;
+};
+
+const TitleInput = ({ className }: TitleInputProps) => {
   const { stellarForm, changeTitle } = useFormEditor();
 
   return (
@@ -57,7 +62,7 @@ const TitleInput = () => {
       onChange={(e) => changeTitle(e.target.value)}
       maxLength={TITLE_MAX_LENGTH}
       placeholder="폼 제목"
-      className="placeholder-placeholder ml-7 text-2xl font-semibold outline-hidden"
+      className={cn("placeholder-placeholder text-2xl font-semibold outline-hidden", className)}
     />
   );
 };
@@ -81,13 +86,17 @@ const FieldItem = ({ field }: FieldItemProps) => {
   );
 };
 
-const AddFieldButton = () => {
+type AddFieldButtonProps = {
+  className?: string;
+};
+
+const AddFieldButton = ({ className }: AddFieldButtonProps) => {
   const { appendField } = useFormEditor();
 
   return (
     <FieldDropdown
       trigger={
-        <IconButton variant="outlined" aria-label="필드 추가" size="xsmall">
+        <IconButton className={className} variant="outlined" aria-label="필드 추가" size="xsmall">
           <PlusIcon className="size-4" />
         </IconButton>
       }

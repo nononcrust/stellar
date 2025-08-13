@@ -27,14 +27,14 @@ export const FormRenderer = ({ stellarForm, onSubmit }: FormRendererProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-2xl font-semibold">{stellarForm.title}</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">{stellarForm.title}</h1>
       <p className="text-subtle text-sm font-medium">
         <Tag className="mr-2" variant="secondary">
           진행기간
         </Tag>
         {format(DUMMY_CREATED_AT, "yyyy.MM.dd")} ~
       </p>
-      <Form className="mt-8 mb-8 flex flex-col gap-8" onSubmit={form.handleSubmit(onSubmit)}>
+      <Form className="mt-8 flex flex-col gap-8" onSubmit={form.handleSubmit(onSubmit)}>
         {stellarForm.fields.map((formField) => (
           <Form.Item
             key={formField.id}

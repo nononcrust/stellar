@@ -20,7 +20,7 @@ const FormLabel = ({ className, children, ...props }: FormLabelProps) => {
     <label
       id={labelId}
       htmlFor={id}
-      className={cn("text-main w-fit text-base font-medium", className)}
+      className={cn("text-main w-fit text-base font-medium tracking-tight", className)}
       {...props}
     >
       {children}

@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 
 export const selectTriggerStyle = {
   base: cn(
-    "border-border bg-background relative text-main flex h-10 w-full items-center justify-between rounded-md border pl-3 pr-9 text-start text-sm font-medium shadow-xs outline-hidden cursor-pointer",
+    "border-border bg-background relative text-main flex h-11 w-full items-center justify-between rounded-md border pl-4 pr-9 text-start text-[0.9375rem] font-medium shadow-xs outline-hidden cursor-pointer",
     "[&>span]:min-w-0",
     "focus-visible:focus-input-ring",
     "data-disabled:pointer-events-none data-disabled:opacity-50 data-disabled:bg-background-100",
@@ -111,7 +111,7 @@ const SelectGroupLabel = ({ className, children, ...props }: SelectGroupLabelPro
 
 export const selectItemStyle = {
   base: cn(
-    "outline-hidden relative flex w-full cursor-pointer select-none items-center py-2 pl-3 pr-8 text-sm font-medium rounded-[0.375rem] text-sub",
+    "outline-hidden relative flex w-full cursor-pointer select-none items-center py-2 pl-3 pr-8 text-[0.9375rem] font-medium rounded-[0.375rem] text-sub",
     "data-highlighted:bg-background-hover data-highlighted:text-main",
     "data-selected:text-neutral data-selected:font-semibold",
     "data-disabled:pointer-events-none data-disabled:opacity-50",

@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning className={pretendard.className}>
-      <body className="antialiased">
+      <body className="bg-background-100 antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

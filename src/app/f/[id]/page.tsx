@@ -17,8 +17,10 @@ export default async function FormResponsePage(props: PageProps) {
   }
 
   return (
-    <main className="mx-auto mt-8 max-w-xl px-4">
-      <Form form={form} />
-    </main>
+    <div className="bg-background mx-auto max-w-[640px]">
+      <main className="mx-auto max-w-xl px-4 py-12">
+        <Form form={form} />
+      </main>
+    </div>
   );
 }

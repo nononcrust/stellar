@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { Checkbox as CheckboxBase } from "@base-ui-components/react/checkbox";
-import { CheckboxGroup as CheckboxGroupBase } from "@base-ui-components/react/checkbox-group";
 import { noop } from "es-toolkit";
 import { CheckIcon, MinusIcon } from "lucide-react";
 import { tv, VariantProps } from "tailwind-variants";
@@ -13,8 +12,8 @@ export const checkboxVariants = tv({
   slots: {
     root: cn(
       "bg-background border-border shadow-xs outline-hidden peer size-4 shrink-0 border",
-      "data-checked:border-primary data-checked:bg-primary data-checked:text-white",
-      "data-indeterminate:border-primary data-indeterminate:bg-primary data-indeterminate:text-white",
+      "data-checked:border-neutral data-checked:bg-neutral data-checked:text-white",
+      "data-indeterminate:border-neutral data-indeterminate:bg-neutral data-indeterminate:text-white",
       "disabled:pointer-events-none disabled:opacity-50",
     ),
     icon: "stroke-3",
@@ -101,29 +100,5 @@ const Checkbox = ({
     </label>
   );
 };
-
-type CheckboxGroupValue = string[] | readonly string[];
-
-type CheckboxGroupProps = Omit<
-  CheckboxGroupBase.Props,
-  "onValueChange" | "onChange" | "value" | "allValues"
-> & {
-  value?: CheckboxGroupValue;
-  onChange?: (value: CheckboxGroupValue) => void;
-  allValues: CheckboxGroupValue;
-};
-
-const CheckboxGroup = ({ value, onChange, allValues, ...props }: CheckboxGroupProps) => {
-  return (
-    <CheckboxGroupBase
-      value={value as string[]}
-      allValues={allValues as string[]}
-      onValueChange={onChange as (value: string[]) => void}
-      {...props}
-    />
-  );
-};
-
-Checkbox.Group = CheckboxGroup;
 
 export { Checkbox };

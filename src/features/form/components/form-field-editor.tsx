@@ -113,7 +113,7 @@ const DescriptionInput = ({ className, ...props }: DescriptionInputProps) => {
     <input
       placeholder="설명을 입력해주세요"
       className={cn(
-        "placeholder-placeholder text-sub text-[0.8125rem] font-medium outline-hidden",
+        "placeholder-placeholder text-sub text-sm font-medium outline-hidden",
         className,
       )}
       {...props}

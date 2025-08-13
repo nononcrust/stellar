@@ -29,11 +29,19 @@ type TooltipProps = VariantProps<typeof tooltipVariants> & {
   side?: TooltipBase.Positioner.Props["side"];
   content: React.ReactNode;
   children: TooltipBase.Trigger.Props["render"];
+  delay?: TooltipBase.Provider.Props["delay"];
 };
 
-const Tooltip = ({ className, variant, content, side = "top", children }: TooltipProps) => {
+const Tooltip = ({
+  className,
+  variant,
+  content,
+  side = "top",
+  children,
+  delay = 0,
+}: TooltipProps) => {
   return (
-    <TooltipBase.Provider delay={0}>
+    <TooltipBase.Provider delay={delay}>
       <TooltipBase.Root>
         <TooltipBase.Trigger render={children} />
         <TooltipBase.Portal>
