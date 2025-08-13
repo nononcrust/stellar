@@ -2,26 +2,49 @@
 
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth";
+import Link from "next/link";
 import { ROUTE } from "../../lib/route";
 
 export default function LoginPage() {
   return (
-    <main className="mx-auto flex h-dvh max-w-xs items-center justify-center">
-      <Button
-        className="w-full"
-        variant="outlined"
-        size="large"
-        onClick={() =>
-          authClient.signIn.social({
-            provider: "google",
-            callbackURL: ROUTE.DASHBOARD.FORM.LIST,
-          })
-        }
-      >
-        <GoogleLogo />
-        구글 계정으로 로그인
-      </Button>
-    </main>
+    <div className="bg-background-100">
+      <main className="mx-auto flex h-dvh max-w-[340px] flex-col items-center justify-center">
+        <Link
+          href={ROUTE.HOME}
+          className="text-primary absolute top-8 left-1/2 mb-8 -translate-x-1/2 text-3xl font-extrabold tracking-tighter"
+        >
+          Stellar
+        </Link>
+        <Button
+          className="w-full font-medium"
+          variant="outlined"
+          size="large"
+          onClick={() =>
+            authClient.signIn.social({
+              provider: "google",
+              callbackURL: ROUTE.DASHBOARD.FORM.LIST,
+            })
+          }
+        >
+          <GoogleLogo />
+          구글 계정으로 로그인
+        </Button>
+        <div className="absolute bottom-8 flex w-[340px] flex-col items-center">
+          <p className="text-subtle text-center text-xs">
+            구글 계정으로 로그인하는 경우,{" "}
+            <Link className="underline" href="#">
+              서비스 이용약관
+            </Link>{" "}
+            및{" "}
+            <Link className="underline" href="#">
+              개인정보 처리방침
+            </Link>
+            에 동의하는 것으로 간주됩니다.
+          </p>
+          <span className="text-subtle mt-4 text-xs">© 2025 Stellar Limited.</span>
+        </div>
+      </main>
+    </div>
   );
 }
 

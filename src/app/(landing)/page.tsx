@@ -21,10 +21,12 @@ const Header = () => {
   return (
     <HeaderBase>
       <div className="mx-auto flex h-full w-full max-w-4xl items-center justify-between px-4">
-        <h1 className="text-primary text-xl font-extrabold tracking-tighter">Stellar</h1>
+        <h1 className="text-primary text-2xl font-extrabold tracking-tighter">Stellar</h1>
         <div className="flex gap-2">
-          <Button variant="outlined">로그인</Button>
-          <Button>시작하기</Button>
+          <Button variant="outlined" render={<Link href={ROUTE.LOGIN} />}>
+            로그인
+          </Button>
+          <Button render={<Link href={ROUTE.LOGIN} />}>시작하기</Button>
         </div>
       </div>
     </HeaderBase>
@@ -33,31 +35,33 @@ const Header = () => {
 
 const HeroSection = () => {
   return (
-    <section className="mx-auto max-w-4xl px-4 py-40">
-      <TransitionMount>
-        <h1 className="text-4xl leading-12 font-extrabold tracking-tighter whitespace-pre-wrap">
-          <span className="from-primary-light to-primary w-fit bg-gradient-to-r bg-clip-text py-16 text-transparent">
-            스텔라
-          </span>
-          {" 와 함께\n누구나 쉽고 빠르게 만드는 폼"}
-        </h1>
-        <p className="text-subtle mt-3 text-xl font-semibold">
-          설문조사, 신청서, 피드백 수집까지. 간단한 과정으로 필요한 폼을 바로 만들어 공유하세요.
-        </p>
-      </TransitionMount>
-      <TransitionMount delay={0.2}>
-        <Link
-          href={ROUTE.LOGIN}
-          className={cn(
-            "mt-8 h-14 px-7",
-            "inline-flex items-center justify-center gap-1.5 rounded-full border border-transparent shadow-xl transition-colors",
-            "hover:bg-primary-dark to-primary hover:to-primary-dark bg-gradient-to-r from-sky-500 hover:from-sky-500",
-            "text-xl font-semibold text-white",
-          )}
-        >
-          시작하기
-        </Link>
-      </TransitionMount>
+    <section className="bg-background-100">
+      <div className="mx-auto max-w-4xl px-4 py-40">
+        <TransitionMount>
+          <h1 className="text-4xl leading-12 font-extrabold tracking-tighter whitespace-pre-wrap">
+            <span className="from-primary-light to-primary w-fit bg-gradient-to-r bg-clip-text py-16 text-transparent">
+              스텔라
+            </span>
+            {" 와 함께\n누구나 쉽고 빠르게 만드는 폼"}
+          </h1>
+          <p className="text-subtle mt-3 text-xl font-semibold">
+            설문조사, 신청서, 피드백 수집까지. 간단한 과정으로 필요한 폼을 바로 만들어 공유하세요.
+          </p>
+        </TransitionMount>
+        <TransitionMount delay={0.2}>
+          <Link
+            href={ROUTE.LOGIN}
+            className={cn(
+              "mt-8 h-14 px-7",
+              "inline-flex items-center justify-center gap-1.5 rounded-full border border-transparent shadow-xl transition-colors",
+              "hover:bg-primary-dark to-primary hover:to-primary-dark bg-gradient-to-r from-sky-500 hover:from-sky-500",
+              "text-xl font-semibold text-white",
+            )}
+          >
+            시작하기
+          </Link>
+        </TransitionMount>
+      </div>
     </section>
   );
 };

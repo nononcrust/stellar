@@ -26,14 +26,14 @@ const DropdownMenuContent = ({
     <DropdownMenuBase.Portal>
       <DropdownMenuBase.Backdrop />
       <DropdownMenuBase.Positioner
-        className="outline-hidden"
+        className="z-50 outline-hidden"
         sideOffset={4}
         side="bottom"
         align={align}
       >
         <DropdownMenuBase.Popup
           className={cn(
-            "border-border bg-background text-main z-50 min-w-40 rounded-md border p-1 shadow-lg outline-hidden",
+            "border-border bg-background text-main min-w-40 rounded-md border p-1 shadow-lg outline-hidden",
             "data-open:duration-150 data-starting-style:opacity-0",
             "data-[side=top]:data-starting-style:translate-y-[0.5rem]",
             "data-[side=bottom]:data-starting-style:translate-y-[-0.5rem]",

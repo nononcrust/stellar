@@ -1,6 +1,7 @@
 export const ROUTE = {
   HOME: "/",
   LOGIN: "/login",
+  ACCOUNT: "/account",
   DASHBOARD: {
     FORM: {
       LIST: "/forms",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/layouts/page-header";
 import { FormStatusTag } from "@/features/form/components/form-status-tag";
 import { formDetailQueryOptions } from "@/services/dashboard/form";
 import { formResponseListQueryOptions } from "@/services/form-response";
@@ -21,22 +21,22 @@ const FormDetailPage = Suspense.with({ fallback: null, clientOnly: true }, () =>
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col px-4">
-      <Card className="mt-8">
+      <PageHeader>
         <FormStatusTag className="w-fit" status={form.status} />
-        <h1 className="mt-2 flex items-center text-2xl font-bold">{form.title}</h1>
-        <ul>
-          {formResponses.data.map((formResponse) => (
-            <li key={formResponse.id}>
-              {form.fields.map((field) => (
-                <div key={field.id}>
-                  <span>{field.label}</span>
-                  <span>{formResponse.answers[field.id]}</span>
-                </div>
-              ))}
-            </li>
-          ))}
-        </ul>
-      </Card>
+        <PageHeader.Title>{form.title}</PageHeader.Title>
+      </PageHeader>
+      <ul>
+        {formResponses.data.map((formResponse) => (
+          <li key={formResponse.id}>
+            {form.fields.map((field) => (
+              <div key={field.id}>
+                <span>{field.label}</span>
+                <span>{formResponse.answers[field.id]}</span>
+              </div>
+            ))}
+          </li>
+        ))}
+      </ul>
     </main>
   );
 });

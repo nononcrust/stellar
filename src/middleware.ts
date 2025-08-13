@@ -11,6 +11,14 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  if (request.nextUrl.pathname.startsWith(ROUTE.DASHBOARD.FORM.LIST)) {
+    const sessionCookie = getSessionCookie(request);
+
+    if (!sessionCookie) {
+      return NextResponse.redirect(new URL(ROUTE.LOGIN, request.url));
+    }
+  }
+
   return NextResponse.next();
 }
 

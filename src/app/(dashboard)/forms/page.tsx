@@ -1,5 +1,6 @@
 "use client";
 
+import { PageHeader } from "@/components/layouts/page-header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog } from "@/components/ui/dialog";
@@ -32,23 +33,27 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
   const { data: forms } = useSuspenseQuery(formListQueryOptions());
 
   return (
-    <main className="mx-auto flex max-w-4xl flex-col px-4">
-      <h1 className="mt-8 text-2xl font-bold">나의 폼 목록</h1>
-      <p className="text-subtle mt-2">
-        내가 만든 폼 목록을 확인하고, 새로 만들거나 기존 폼을 편집할 수 있어요.
-      </p>
-      <div className="mt-4 flex items-center justify-end">
-        <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
-          <PlusIcon className="size-4" />
-          새로 만들기
-        </Button>
-      </div>
-      <ul className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
-        {forms.map((form) => (
-          <FormListItem key={form.id} form={form} />
-        ))}
-      </ul>
-    </main>
+    <div className="bg-background-100 min-h-dvh">
+      <main className="container">
+        <PageHeader>
+          <PageHeader.Title>나의 폼 목록</PageHeader.Title>
+          <PageHeader.Description>
+            내가 만든 폼 목록을 확인하고, 새로 만들거나 기존 폼을 편집할 수 있어요.
+          </PageHeader.Description>
+        </PageHeader>
+        <div className="mt-8 flex items-center justify-end">
+          <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
+            <PlusIcon className="size-4" />
+            새로 만들기
+          </Button>
+        </div>
+        <ul className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
+          {forms.map((form) => (
+            <FormListItem key={form.id} form={form} />
+          ))}
+        </ul>
+      </main>
+    </div>
   );
 });
 
