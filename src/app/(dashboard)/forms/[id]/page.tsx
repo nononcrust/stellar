@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Sheet } from "@/components/ui/sheet";
 import { Table } from "@/components/ui/table";
+import { Tabs } from "@/components/ui/tabs";
 import { Tag } from "@/components/ui/tag";
 import { FieldSummary } from "@/features/form/components/field-summary";
 import { FormStatusTag } from "@/features/form/components/form-status-tag";
@@ -38,8 +39,18 @@ const FormDetailPage = Suspense.with({ fallback: null, clientOnly: true }, () =>
         <FormStatusTag className="w-fit" status={form.status} />
         <PageHeader.Title>{form.title}</PageHeader.Title>
       </PageHeader>
-      <SummarySection />
-      <TableSection />
+      <Tabs className="mt-4" defaultValue="summary">
+        <Tabs.List>
+          <Tabs.Tab value="summary">필드별 응답</Tabs.Tab>
+          <Tabs.Tab value="table">참여자별 응답</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="summary">
+          <SummarySection />
+        </Tabs.Panel>
+        <Tabs.Panel value="table">
+          <TableSection />
+        </Tabs.Panel>
+      </Tabs>
     </main>
   );
 });

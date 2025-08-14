@@ -111,7 +111,9 @@ export const dashboardFormRouter = new Hono()
       where: { formId: id },
     });
 
-    const total = await prisma.formResponse.count();
+    const total = await prisma.formResponse.count({
+      where: { formId: id },
+    });
 
     return c.json({
       data: formResponses,
