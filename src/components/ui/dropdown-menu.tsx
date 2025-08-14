@@ -115,11 +115,10 @@ const DropdownMenuCheckboxItem = ({
       className={cn(dropdownMenuItemVariants({ variant: "default" }), className)}
       {...props}
     >
-      {children}
       <DropdownMenuBase.CheckboxItemIndicator
         keepMounted
         className={cn(
-          "group ml-3 flex items-center justify-center",
+          "group mr-1 -ml-1 flex items-center justify-center",
           checkboxVariants({ size: "medium" }).root(),
         )}
       >
@@ -127,6 +126,7 @@ const DropdownMenuCheckboxItem = ({
           className={cn("group-data-unchecked:hidden", checkboxVariants({ size: "medium" }).icon())}
         />
       </DropdownMenuBase.CheckboxItemIndicator>
+      {children}
     </DropdownMenuBase.CheckboxItem>
   );
 };

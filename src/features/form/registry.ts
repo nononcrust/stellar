@@ -1,5 +1,13 @@
 import { objectKeys } from "@/lib/object";
-import { ChevronDownIcon, HashIcon, MailIcon, PhoneIcon, TextIcon, TypeIcon } from "lucide-react";
+import {
+  ChevronDownIcon,
+  CircleDotIcon,
+  HashIcon,
+  MailIcon,
+  PhoneIcon,
+  TextIcon,
+  TypeIcon,
+} from "lucide-react";
 import { nanoid } from "nanoid";
 import z from "zod";
 import { StellarFormField } from "./schema";
@@ -81,6 +89,22 @@ const dropdownField: FieldRegistry<"DROPDOWN"> = {
   icon: ChevronDownIcon,
 };
 
+const singleChoiceField: FieldRegistry<"SINGLE_CHOICE"> = {
+  name: "단일 선택",
+  defaultValue: "",
+  formSchema: (field) => applyOptionalConstraint(z.string(), field.required),
+  emptyField: () => ({
+    ...emptyCommonField,
+    options: [
+      {
+        label: "",
+        value: nanoid(),
+      },
+    ],
+  }),
+  icon: CircleDotIcon,
+};
+
 export const fieldRegistry = {
   SHORT_TEXT: shortTextField,
   LONG_TEXT: longTextField,
@@ -88,6 +112,7 @@ export const fieldRegistry = {
   PHONE_NUMBER: phoneNumberField,
   NUMBER: numberField,
   DROPDOWN: dropdownField,
+  SINGLE_CHOICE: singleChoiceField,
 } satisfies Record<StellarFormField["type"], FieldRegistry<StellarFormField["type"]>>;
 
 export const FORM_TYPES = objectKeys(fieldRegistry);

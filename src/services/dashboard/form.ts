@@ -21,6 +21,22 @@ export const dashboardFormApi = {
     const response = await api.dashboard.forms[":id"].$delete({ param: { id } });
     return response.json();
   },
+  getFormResponseList: async ({
+    id,
+    query,
+  }: {
+    id: string;
+    query: { page: number; limit: number };
+  }) => {
+    const response = await api.dashboard.forms[":id"].responses.$get({
+      query: {
+        page: query.page.toString(),
+        limit: query.limit.toString(),
+      },
+      param: { id },
+    });
+    return response.json();
+  },
 };
 
 export const formListQueryOptions = () =>
@@ -39,6 +55,15 @@ export const formDetailQueryOptions = (param: { id: string }) =>
       const response = await dashboardFormApi.getFormDetail({ param });
       return await response.json();
     },
+  });
+
+export const formResponseListQueryOptions = (request: {
+  id: string;
+  query: { page: number; limit: number };
+}) =>
+  queryOptions({
+    queryKey: ["formResponseList", request],
+    queryFn: () => dashboardFormApi.getFormResponseList(request),
   });
 
 export const useCreateFormMutation = () => {

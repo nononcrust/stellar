@@ -1,4 +1,5 @@
 import { StellarFormField } from "@/features/form/schema";
+import { Limit, Page } from "@/server/utils/pagination";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import z from "zod";
@@ -17,6 +18,12 @@ export type CreateFormBody = z.infer<typeof CreateFormBody>;
 const CreateFormBody = z.object({
   title: FormTitle,
   fields: StellarFormField.array(),
+});
+
+export type GetFormResponseListQuery = z.infer<typeof GetFormResponseListQuery>;
+const GetFormResponseListQuery = z.object({
+  page: Page,
+  limit: Limit,
 });
 
 export const dashboardFormRouter = new Hono()
@@ -77,10 +84,11 @@ export const dashboardFormRouter = new Hono()
     return c.json({ form: updatedForm }, 200);
   })
   .delete("/:id", authMiddleware, async (c) => {
+    const id = c.req.param("id");
     const session = c.get("session");
 
     const form = await prisma.form.findUniqueOrThrow({
-      where: { id: c.req.param("id") },
+      where: { id },
     });
 
     if (form.userId !== session.user.id) {
@@ -90,4 +98,23 @@ export const dashboardFormRouter = new Hono()
     const deletedForm = await prisma.form.delete({ where: { id: form.id } });
 
     return c.json({ form: deletedForm }, 200);
+  })
+  .get("/:id/responses", zValidator("query", GetFormResponseListQuery), async (c) => {
+    const id = c.req.param("id");
+
+    const { page, limit } = c.req.valid("query");
+
+    const formResponses = await prisma.formResponse.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy: { createdAt: "desc" },
+      where: { formId: id },
+    });
+
+    const total = await prisma.formResponse.count();
+
+    return c.json({
+      data: formResponses,
+      total,
+    });
   });

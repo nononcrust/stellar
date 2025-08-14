@@ -7,7 +7,7 @@ const tagVariant = tv({
     variant: {
       primary: "bg-primary text-white",
       secondary: "bg-secondary text-main",
-      outlined: "border border-border text-main",
+      outlined: "bg-background border border-border text-main",
       info: "bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-50",
       success: "bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-50",
       warning: "bg-yellow-50 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-50",

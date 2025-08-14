@@ -1,8 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Select as SelectBase } from "@base-ui-components/react/select";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { cn } from "../../lib/utils";
 
 export const selectTriggerStyle = {
   base: cn(

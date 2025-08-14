@@ -102,6 +102,7 @@ enum FormStatus {
 
 model FormResponse {
   id        String   @id @default(cuid())
+  /// [Answers]
   answers   Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

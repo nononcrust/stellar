@@ -25,6 +25,8 @@ export const FormFieldRenderer = ({ formField, field }: FormFieldRendererProps) 
             return <Field.Number {...field} />;
           case "DROPDOWN":
             return <Field.Dropdown {...field} options={formField.options} />;
+          case "SINGLE_CHOICE":
+            return <Field.SingleChoice {...field} options={formField.options} />;
           default:
             return formField satisfies never;
         }

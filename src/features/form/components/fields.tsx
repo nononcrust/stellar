@@ -1,8 +1,10 @@
 import { Input } from "@/components/ui/input";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { EMAIL_MAX_LENGTH, LONG_TEXT_MAX_LENGTH, SHORT_TEXT_MAX_LENGTH } from "../config";
 import { formatToNumberOnly, formatToPhoneNumber } from "../formatter";
+import { Option } from "../schema";
 
 type FieldProps<TValue> = {
   className?: string;
@@ -17,6 +19,7 @@ const LongText = ({ value, onChange, ...props }: FieldProps<string>) => {
 
   return (
     <Textarea
+      variant="neutral"
       placeholder={`답변을 입력해주세요. (최대 ${LONG_TEXT_MAX_LENGTH}자)`}
       value={value}
       onChange={onTextareaChange}
@@ -33,6 +36,7 @@ const ShortText = ({ value, onChange, ...props }: FieldProps<string>) => {
 
   return (
     <Input
+      variant="neutral"
       placeholder="답변을 입력해주세요."
       value={value}
       onChange={onInputChange}
@@ -49,6 +53,7 @@ const Email = ({ value, onChange, ...props }: FieldProps<string>) => {
 
   return (
     <Input
+      variant="neutral"
       placeholder="이메일을 입력해주세요."
       value={value}
       onChange={onInputChange}
@@ -65,6 +70,7 @@ const PhoneNumber = ({ value, onChange, ...props }: FieldProps<string>) => {
 
   return (
     <Input
+      variant="neutral"
       placeholder="전화번호를 입력해주세요."
       value={value}
       onChange={onInputChange}
@@ -79,12 +85,18 @@ const Number = ({ value, onChange, ...props }: FieldProps<string>) => {
   };
 
   return (
-    <Input placeholder="숫자를 입력해주세요." value={value} onChange={onInputChange} {...props} />
+    <Input
+      variant="neutral"
+      placeholder="숫자를 입력해주세요."
+      value={value}
+      onChange={onInputChange}
+      {...props}
+    />
   );
 };
 
 type DropdownProps = FieldProps<string> & {
-  options: { label: string; value: string }[];
+  options: Option[];
 };
 
 const Dropdown = ({ value, onChange, options, ...props }: DropdownProps) => {
@@ -99,6 +111,22 @@ const Dropdown = ({ value, onChange, options, ...props }: DropdownProps) => {
   );
 };
 
+type SingleChoiceEditorProps = FieldProps<string> & {
+  options: Option[];
+};
+
+const SingleChoice = ({ value, onChange, options, ...props }: SingleChoiceEditorProps) => {
+  return (
+    <RadioGroup variant="neutral" className="mb-2" value={value} onChange={onChange} {...props}>
+      {options.map((option) => (
+        <RadioGroup.Option key={option.value} value={option.label}>
+          {option.label}
+        </RadioGroup.Option>
+      ))}
+    </RadioGroup>
+  );
+};
+
 export const Field = {
   LongText,
   ShortText,
@@ -106,4 +134,5 @@ export const Field = {
   PhoneNumber,
   Number,
   Dropdown,
+  SingleChoice,
 };

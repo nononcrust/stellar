@@ -12,7 +12,7 @@ export const checkboxVariants = tv({
   slots: {
     root: cn(
       "bg-background border-border shadow-xs outline-hidden peer size-4 shrink-0 border",
-      "data-checked:border-neutral data-checked:bg-neutral data-checked:text-white",
+      "data-checked:text-white",
       "data-indeterminate:border-neutral data-indeterminate:bg-neutral data-indeterminate:text-white",
       "disabled:pointer-events-none disabled:opacity-50",
     ),
@@ -20,6 +20,14 @@ export const checkboxVariants = tv({
     label: "font-medium",
   },
   variants: {
+    variant: {
+      primary: {
+        root: "text-white data-checked:border-primary data-checked:bg-primary",
+      },
+      neutral: {
+        root: "text-white data-checked:border-neutral data-checked:bg-neutral",
+      },
+    },
     size: {
       small: {
         root: "size-4 rounded-[0.25rem]",
@@ -39,6 +47,7 @@ export const checkboxVariants = tv({
     },
   },
   defaultVariants: {
+    variant: "primary",
     size: DEFAULT_SIZE,
   },
 });

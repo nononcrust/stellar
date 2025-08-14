@@ -13,5 +13,6 @@ if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 declare global {
   namespace PrismaJson {
     type Fields = StellarFormField[];
+    type Answers = Record<string, unknown>;
   }
 }

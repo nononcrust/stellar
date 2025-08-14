@@ -55,7 +55,7 @@ export const FormRenderer = ({ stellarForm, onSubmit }: FormRendererProps) => {
             <Form.ErrorMessage>{form.formState.errors[formField.id]?.message}</Form.ErrorMessage>
           </Form.Item>
         ))}
-        <Button variant="contained" className="mt-4 self-start" type="submit" size="large">
+        <Button variant="neutral" className="mt-4 self-start" type="submit" size="large">
           제출하기
         </Button>
       </Form>

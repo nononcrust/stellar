@@ -12,14 +12,22 @@ const radioGroupVariants = tv({
     root: "grid",
     item: cn(
       "aspect-sqaure border-border size-4 shrink-0 rounded-full border shadow-xs outline-hidden",
-      "data-checked:border-neutral data-checked:bg-neutral data-checked:text-white",
+      "data-checked:border-primary data-checked:bg-primary data-checked:text-white",
       "data-disabled:pointer-events-none data-disabled:opacity-50",
     ),
     indicator: "",
     label: "font-medium w-fit",
-    option: "flex items-center",
+    option: "flex items-center cursor-pointer",
   },
   variants: {
+    variant: {
+      primary: {
+        item: "data-checked:bg-primary data-checked:border-primary",
+      },
+      neutral: {
+        item: "data-checked:bg-neutral data-checked:border-neutral",
+      },
+    },
     size: {
       small: {
         root: "gap-2",
@@ -45,6 +53,7 @@ const radioGroupVariants = tv({
     },
   },
   defaultVariants: {
+    variant: "primary",
     size: "medium",
   },
 });
@@ -63,13 +72,14 @@ const RadioGroup = <TValue extends string>({
   children,
   "aria-invalid": ariaInvalid,
   size,
+  variant,
   onChange,
   ...props
 }: RadioGroupProps<TValue>) => {
   return (
-    <RadioGroupContext value={{ ariaInvalid, size }}>
+    <RadioGroupContext value={{ ariaInvalid, size, variant }}>
       <RadioGroupBase
-        className={cn(radioGroupVariants({ size }).root(), className)}
+        className={cn(radioGroupVariants({ size, variant }).root(), className)}
         onValueChange={onChange as (value: unknown) => void}
         {...props}
       >
@@ -85,13 +95,13 @@ type RadioGroupItemProps = Omit<RadioBase.Root.Props, "className"> & {
 
 const RadioGroupItem = ({ className, ...props }: RadioGroupItemProps) => {
   const id = useId();
-  const { ariaInvalid, size } = useRadioGroupContext();
+  const { ariaInvalid, size, variant } = useRadioGroupContext();
 
   return (
     <RadioBase.Root
       id={id}
       className={cn(
-        radioGroupVariants({ size }).item(),
+        radioGroupVariants({ size, variant }).item(),
         ariaInvalid &&
           "border-error focus-visible:ring-ring-error data-checked:bg-error data-checked:border-error",
         className,
@@ -141,6 +151,7 @@ RadioGroup.Option = RadioGroupOption;
 type RadioGroupContextValue = {
   ariaInvalid?: boolean | "true" | "false" | "grammar" | "spelling" | undefined;
   size: VariantProps<typeof radioGroupVariants>["size"];
+  variant: VariantProps<typeof radioGroupVariants>["variant"];
 };
 
 const [RadioGroupContext, useRadioGroupContext] =

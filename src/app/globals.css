@@ -116,7 +116,11 @@
 }
 
 @utility focus-input-ring {
-  @apply border-neutral dark:border-primary dark:ring-primary-darker border ring-[3px] ring-neutral-100 ring-offset-0 outline-hidden;
+  @apply border-primary ring-primary-lighter dark:border-primary dark:ring-primary-darker border ring-[3px] ring-offset-0 outline-hidden;
+}
+
+@utility focus-input-ring-neutral {
+  @apply border-neutral border ring-[3px] ring-neutral-100 ring-offset-0 outline-hidden;
 }
 
 @utility focus-input-ring-error {

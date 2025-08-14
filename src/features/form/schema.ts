@@ -33,14 +33,20 @@ export const Number = StellarFormFieldBase.extend({
   type: z.literal("NUMBER"),
 });
 
+export type Option = z.infer<typeof Option>;
+export const Option = z.object({
+  label: z.string(),
+  value: z.string(),
+});
+
 export const Dropdown = StellarFormFieldBase.extend({
   type: z.literal("DROPDOWN"),
-  options: z.array(
-    z.object({
-      label: z.string(),
-      value: z.string(),
-    }),
-  ),
+  options: z.array(Option),
+});
+
+export const SingleChoice = StellarFormFieldBase.extend({
+  type: z.literal("SINGLE_CHOICE"),
+  options: z.array(Option),
 });
 
 export type StellarFormField = z.infer<typeof StellarFormField>;
@@ -51,6 +57,7 @@ export const StellarFormField = z.discriminatedUnion("type", [
   PhoneNumber,
   Number,
   Dropdown,
+  SingleChoice,
 ]);
 
 export type StellarForm = {
