@@ -25,18 +25,28 @@ export const FieldSummary = ({ number, field, responses }: FieldSummaryProps) =>
       {(() => {
         switch (field.type) {
           case "SHORT_TEXT":
-          case "LONG_TEXT":
           case "EMAIL":
           case "NUMBER":
           case "PHONE_NUMBER":
-            const first10Responses = responses.slice(0, 10);
-
             return (
               <ul className="flex flex-wrap gap-2">
-                {first10Responses.map((response) => (
+                {responses.slice(0, 10).map((response) => (
                   <li
                     key={response.id}
-                    className="border-border flex h-7 items-center justify-center rounded-sm border px-2 text-sm"
+                    className="border-border flex h-[38px] items-center justify-center rounded-sm border px-3 text-sm"
+                  >
+                    {response.answers[field.id]?.toString()}
+                  </li>
+                ))}
+              </ul>
+            );
+          case "LONG_TEXT":
+            return (
+              <ul className="flex flex-wrap gap-2">
+                {responses.slice(0, 10).map((response) => (
+                  <li
+                    key={response.id}
+                    className="border-border flex w-fit items-center rounded-sm border px-3 py-2 text-sm"
                   >
                     {response.answers[field.id]?.toString()}
                   </li>

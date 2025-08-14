@@ -3,12 +3,15 @@
 import { PageHeader } from "@/components/layouts/page-header";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { IconButton } from "@/components/ui/icon-button";
 import { Sheet } from "@/components/ui/sheet";
 import { Table } from "@/components/ui/table";
 import { Tabs } from "@/components/ui/tabs";
 import { Tag } from "@/components/ui/tag";
+import { CopyLinkDialog } from "@/features/form/components/copy-link-dialog";
 import { FieldSummary } from "@/features/form/components/field-summary";
 import { FormStatusTag } from "@/features/form/components/form-status-tag";
+import { generateFormUrl } from "@/features/form/utils";
 import { formDetailQueryOptions, formResponseListQueryOptions } from "@/services/dashboard/form";
 import { FormResponse } from "@prisma/client";
 import { Suspense } from "@suspensive/react";
@@ -19,7 +22,15 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDownIcon, UsersRoundIcon } from "lucide-react";
+import {
+  Columns3Icon,
+  DownloadIcon,
+  ExternalLinkIcon,
+  Link2Icon,
+  MoreVerticalIcon,
+  UsersRoundIcon,
+} from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { overlay } from "overlay-kit";
 import { useMemo, useState } from "react";
@@ -32,17 +43,60 @@ const FormDetailPage = Suspense.with({ fallback: null, clientOnly: true }, () =>
   const params = useParams() as { id: string };
 
   const { data: form } = useSuspenseQuery(formDetailQueryOptions({ id: params.id }));
+  const { data: formResponses } = useSuspenseQuery(
+    formResponseListQueryOptions({
+      id: params.id,
+      query: {
+        page: 1,
+        limit: 1000,
+      },
+    }),
+  );
 
   return (
     <main className="mx-auto mb-16 flex max-w-4xl flex-col px-4">
       <PageHeader>
         <FormStatusTag className="w-fit" status={form.status} />
-        <PageHeader.Title>{form.title}</PageHeader.Title>
+        <div className="flex justify-between gap-16">
+          <PageHeader.Title className="items-center">
+            {form.title}
+            <Tag variant="outlined" className="ml-3 w-fit gap-1 align-middle">
+              <UsersRoundIcon className="text-primary size-3" />
+              {formResponses.total}
+            </Tag>
+          </PageHeader.Title>
+          <div className="mt-0.5 flex shrink-0 items-center">
+            <CopyLinkDialog
+              formId={form.id}
+              trigger={
+                <IconButton variant="ghost" aria-label="링크 공유하기">
+                  <Link2Icon className="size-4" />
+                </IconButton>
+              }
+            />
+            <IconButton
+              variant="ghost"
+              aria-label="폼 링크 열기"
+              render={
+                <Link
+                  href={generateFormUrl({ id: form.id })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLinkIcon className="size-4" />
+                </Link>
+              }
+            />
+            <IconButton variant="ghost" aria-label="메뉴">
+              <MoreVerticalIcon className="size-4" />
+            </IconButton>
+          </div>
+        </div>
       </PageHeader>
       <Tabs className="mt-4" defaultValue="summary">
-        <Tabs.List>
-          <Tabs.Tab value="summary">필드별 응답</Tabs.Tab>
-          <Tabs.Tab value="table">참여자별 응답</Tabs.Tab>
+        <Tabs.List className="w-full justify-start">
+          <Tabs.Tab value="summary">필드별 요약</Tabs.Tab>
+          <Tabs.Tab value="table">모든 응답</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="summary">
           <SummarySection />
@@ -71,7 +125,7 @@ const SummarySection = () => {
 
   return (
     <div className="mt-8">
-      <h2 className="text-xl font-semibold">필드별 응답</h2>
+      <h2 className="text-xl font-semibold">필드별 요약</h2>
       <div className="mt-6 flex flex-col gap-6">
         {form.fields.map((field, index) => (
           <FieldSummary
@@ -154,36 +208,37 @@ const TableSection = () => {
   };
 
   return (
-    <div>
-      <div className="mt-8 flex items-center">
-        <h2 className="text-xl font-semibold">모든 응답</h2>
-        <Tag variant="outlined" className="ml-2 gap-1">
-          <UsersRoundIcon className="text-primary size-3" />
-          {formResponses.total}
-        </Tag>
-      </div>
-      <div className="mt-2 flex justify-end">
+    <div className="mt-8">
+      <h2 className="text-xl font-semibold">모든 응답</h2>
+      <div className="mt-2 flex justify-end gap-1.5">
         <DropdownMenu>
           <DropdownMenu.Trigger
             render={
               <Button size="small" variant="outlined">
-                표시할 필드
-                <ChevronDownIcon className="size-4" />
+                <Columns3Icon className="size-3.5" />
+                필드 설정
               </Button>
             }
           />
           <DropdownMenu.Content>
-            {table.getAllColumns().map((column) => (
-              <DropdownMenu.CheckboxItem
-                checked={column.getIsVisible()}
-                onCheckedChange={column.toggleVisibility}
-                key={column.id}
-              >
-                {column.columnDef.header?.toString()}
-              </DropdownMenu.CheckboxItem>
-            ))}
+            <DropdownMenu.Group>
+              <DropdownMenu.GroupLabel>표시할 필드</DropdownMenu.GroupLabel>
+              {table.getAllColumns().map((column) => (
+                <DropdownMenu.CheckboxItem
+                  checked={column.getIsVisible()}
+                  onCheckedChange={column.toggleVisibility}
+                  key={column.id}
+                >
+                  {column.columnDef.header?.toString()}
+                </DropdownMenu.CheckboxItem>
+              ))}
+            </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu>
+        <Button size="small" variant="outlined">
+          <DownloadIcon className="size-3.5" />
+          CSV로 다운로드
+        </Button>
       </div>
       <div className="scrollbar-hide mt-2 overflow-x-auto">
         <Table>
@@ -209,11 +264,7 @@ const TableSection = () => {
           </Table.Header>
           <Table.Body>
             {table.getRowModel().rows.map((row) => (
-              <Table.Row
-                key={row.id}
-                className="hover:bg-background-100 cursor-pointer"
-                onClick={() => onRowClick()}
-              >
+              <Table.Row key={row.id} className="cursor-pointer" onClick={() => onRowClick()}>
                 {row.getVisibleCells().map((cell) => (
                   <Table.Cell className="whitespace-nowrap" key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

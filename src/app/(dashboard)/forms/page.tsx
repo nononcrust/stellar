@@ -3,10 +3,11 @@
 import { PageHeader } from "@/components/layouts/page-header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Dialog } from "@/components/ui/dialog";
+import { ChipButton } from "@/components/ui/chip-button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { IconButton } from "@/components/ui/icon-button";
 import { Prompt } from "@/components/ui/prompt";
+import { CopyLinkDialog } from "@/features/form/components/copy-link-dialog";
 import { FormStatusTag } from "@/features/form/components/form-status-tag";
 import { generateFormUrl } from "@/features/form/utils";
 import { ROUTE } from "@/lib/route";
@@ -16,8 +17,6 @@ import { Suspense } from "@suspensive/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
-  CheckIcon,
-  CopyIcon,
   ExternalLinkIcon,
   Link2Icon,
   MoreVerticalIcon,
@@ -27,7 +26,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { overlay } from "overlay-kit";
-import { useState } from "react";
 
 const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
   const { data: forms } = useSuspenseQuery(formListQueryOptions());
@@ -42,10 +40,10 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
           </PageHeader.Description>
         </PageHeader>
         <div className="mt-8 flex items-center justify-end">
-          <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
+          <ChipButton render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
             <PlusIcon className="size-4" />
             새로 만들기
-          </Button>
+          </ChipButton>
         </div>
         <ul className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
           {forms.map((form) => (
@@ -120,28 +118,14 @@ const FormListItem = ({ form }: FormListItemProps) => {
         </Card>
       </Link>
       <div className="absolute top-5 right-5 flex items-center gap-1">
-        <Dialog>
-          <Dialog.Trigger
-            render={
-              <IconButton aria-label="링크 복사하기" size="xsmall" variant="ghost">
-                <Link2Icon className="size-4" />
-              </IconButton>
-            }
-          />
-          <Dialog.Content className="w-[360px]">
-            <Dialog.Header>
-              <Dialog.Title>링크 복사하기</Dialog.Title>
-              <div className="bg-background-100 mt-2 mb-2 flex items-center rounded-md p-3">
-                <div className="scrollbar-hide flex items-center overflow-x-auto">
-                  <span className="text-sub text-sm whitespace-nowrap">
-                    {generateFormUrl({ id: form.id })}
-                  </span>
-                </div>
-                <CopyToClipboard text={generateFormUrl({ id: form.id })} />
-              </div>
-            </Dialog.Header>
-          </Dialog.Content>
-        </Dialog>
+        <CopyLinkDialog
+          formId={form.id}
+          trigger={
+            <IconButton aria-label="링크 복사하기" size="xsmall" variant="ghost">
+              <Link2Icon className="size-4" />
+            </IconButton>
+          }
+        />
         <IconButton
           size="xsmall"
           variant="ghost"
@@ -173,32 +157,6 @@ const FormListItem = ({ form }: FormListItemProps) => {
         </DropdownMenu>
       </div>
     </li>
-  );
-};
-
-type CopyToClipboardProps = {
-  text: string;
-};
-
-const CopyToClipboard = ({ text }: CopyToClipboardProps) => {
-  const [isCopied, setIsCopied] = useState(false);
-
-  const onClick = () => {
-    navigator.clipboard.writeText(text);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
-  };
-
-  return (
-    <div className="ml-3 flex min-h-7 min-w-7 items-center justify-center">
-      {isCopied ? (
-        <CheckIcon className="text-primary size-5" />
-      ) : (
-        <IconButton aria-label="링크 복사" variant="ghost" size="xsmall" onClick={onClick}>
-          <CopyIcon className="size-4" />
-        </IconButton>
-      )}
-    </div>
   );
 };
 

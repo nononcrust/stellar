@@ -4,7 +4,7 @@ type TableProps = React.ComponentPropsWithRef<"table">;
 
 const Table = ({ className, children, ...props }: TableProps) => {
   return (
-    <table className={cn("border-border w-full border-t text-sm", className)} {...props}>
+    <table className={cn("w-full text-sm", className)} {...props}>
       {children}
     </table>
   );
@@ -24,7 +24,13 @@ type TableHeadProps = React.ComponentPropsWithRef<"th">;
 
 const TableHead = ({ className, children, ...props }: TableHeadProps) => {
   return (
-    <th className={cn("h-12 px-3 text-left font-medium", className)} {...props}>
+    <th
+      className={cn(
+        "h-12 px-4 text-left font-medium first:rounded-l-md last:rounded-r-md",
+        className,
+      )}
+      {...props}
+    >
       {children}
     </th>
   );
@@ -34,7 +40,7 @@ type TableRowProps = React.ComponentPropsWithRef<"tr">;
 
 const TableRow = ({ className, children, ...props }: TableRowProps) => {
   return (
-    <tr className={cn("border-border h-12 border-b", className)} {...props}>
+    <tr className={cn("h-12", className)} {...props}>
       {children}
     </tr>
   );
@@ -54,7 +60,7 @@ type TableCellProps = React.ComponentPropsWithRef<"td">;
 
 const TableCell = ({ className, children, ...props }: TableCellProps) => {
   return (
-    <td className={cn("px-3", className)} {...props}>
+    <td className={cn("px-4", className)} {...props}>
       {children}
     </td>
   );
