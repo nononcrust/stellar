@@ -2,7 +2,7 @@
 
 import { authClient } from "@/lib/auth";
 import { ROUTE } from "@/lib/route";
-import { ChevronsUpDownIcon, LogOutIcon, SettingsIcon } from "lucide-react";
+import { ChevronsUpDownIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DropdownMenu } from "../ui/dropdown-menu";
@@ -18,7 +18,9 @@ export const UserProfile = () => {
   return (
     <DropdownMenu>
       <DropdownMenu.Trigger className="hover:bg-background-hover-dark flex w-full items-center gap-3 rounded-md p-2 transition-colors">
-        <div className="size-10 shrink-0 rounded-md bg-gray-200" />
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-gray-200">
+          <UserIcon className="size-6 fill-white text-white" />
+        </div>
         <div className="flex flex-1 flex-col">
           <p className="line-clamp-1 text-start text-sm font-medium">노논</p>
           <p className="text-sub text-start text-xs">nononcrust@gmail.com</p>

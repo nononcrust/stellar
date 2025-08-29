@@ -36,7 +36,7 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
         {forms.length > 0 && (
           <>
             <PageHeader className="flex-row items-center justify-between">
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-2">
                 <PageHeader.Title>나의 폼 목록</PageHeader.Title>
                 <PageHeader.Description>
                   내가 만든 폼 목록을 확인하고, 새로 만들거나 기존 폼을 편집할 수 있어요.

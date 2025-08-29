@@ -19,7 +19,7 @@ export default async function FormResponsePage(props: PageProps) {
   return (
     <div className="bg-background-100">
       <div className="bg-background mx-auto min-h-dvh max-w-[640px]">
-        <main className="mx-auto max-w-xl px-4 py-12">
+        <main className="mx-auto max-w-xl px-6 py-12">
           <Form form={form} />
         </main>
       </div>
