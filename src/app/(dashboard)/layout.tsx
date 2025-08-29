@@ -1,13 +1,10 @@
-import { Header } from "@/components/layouts/header";
-import { UserProfile } from "@/components/shared/user-profile";
+import { Sidebar } from "@/components/layouts/sidebar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Header className="justify-end">
-        <UserProfile />
-      </Header>
-      {children}
+      <Sidebar />
+      <div className="ml-[260px]">{children}</div>
     </>
   );
 }

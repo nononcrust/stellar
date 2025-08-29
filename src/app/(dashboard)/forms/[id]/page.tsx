@@ -169,7 +169,15 @@ const TableSection = () => {
       ...form.fields.map((field) =>
         columnHelper.accessor(field.id, {
           header: field.label,
-          cell: (info) => info.getValue(),
+          cell: (info) => {
+            const answer = info.getValue();
+
+            if (Array.isArray(answer)) {
+              return answer.join(", ");
+            } else {
+              return answer?.toString() || "-";
+            }
+          },
           size: 80,
         }),
       ),

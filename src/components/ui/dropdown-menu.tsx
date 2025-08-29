@@ -14,12 +14,14 @@ const DropdownMenu = ({ children, ...props }: DropdownMenuProps) => {
 
 type DropdownMenuContentProps = DropdownMenuBase.Popup.Props & {
   align?: DropdownMenuBase.Positioner.Props["align"];
+  side?: DropdownMenuBase.Positioner.Props["side"];
 };
 
 const DropdownMenuContent = ({
   className,
   children,
   align,
+  side = "bottom",
   ...props
 }: DropdownMenuContentProps) => {
   return (
@@ -28,7 +30,7 @@ const DropdownMenuContent = ({
       <DropdownMenuBase.Positioner
         className="z-50 outline-hidden"
         sideOffset={4}
-        side="bottom"
+        side={side}
         align={align}
       >
         <DropdownMenuBase.Popup

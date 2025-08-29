@@ -6,6 +6,7 @@
   --color-background: var(--color-white);
   --color-background-100: var(--color-neutral-50);
   --color-background-hover: var(--color-neutral-50);
+  --color-background-hover-dark: var(--color-neutral-100);
   --color-main: var(--color-neutral-800);
   --color-sub: var(--color-neutral-500);
   --color-subtle: var(--color-neutral-400);
@@ -27,6 +28,7 @@
   --color-background: var(--color-neutral-800);
   --color-background-100: var(--color-neutral-900);
   --color-background-hover: var(--color-neutral-700);
+  --color-background-hover-dark: var(--color-neutral-600);
   --color-main: var(--color-neutral-100);
   --color-sub: var(--color-neutral-400);
   --color-subtle: var(--color-neutral-400);
@@ -61,6 +63,7 @@
   --color-background: var(--color-background);
   --color-background-100: var(--color-background-100);
   --color-background-hover: var(--color-background-hover);
+  --color-background-hover-dark: var(--color-background-hover-dark);
   --color-main: var(--color-main);
   --color-sub: var(--color-sub);
   --color-subtle: var(--color-subtle);

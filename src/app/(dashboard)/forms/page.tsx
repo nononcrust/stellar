@@ -17,6 +17,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
   ExternalLinkIcon,
+  LibraryBigIcon,
   Link2Icon,
   MoreVerticalIcon,
   PlusIcon,
@@ -30,25 +31,30 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
   const { data: forms } = useSuspenseQuery(formListQueryOptions());
 
   return (
-    <div className="bg-background-100 min-h-dvh">
-      <main className="container">
-        <PageHeader>
-          <PageHeader.Title>나의 폼 목록</PageHeader.Title>
-          <PageHeader.Description>
-            내가 만든 폼 목록을 확인하고, 새로 만들거나 기존 폼을 편집할 수 있어요.
-          </PageHeader.Description>
-        </PageHeader>
-        <div className="mt-8 flex items-center justify-end">
-          <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
-            <PlusIcon className="size-4" />
-            새로 만들기
-          </Button>
-        </div>
-        <ul className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
-          {forms.map((form) => (
-            <FormListItem key={form.id} form={form} />
-          ))}
-        </ul>
+    <div className="flex min-h-dvh flex-col">
+      <main className="container flex flex-1 flex-col">
+        {forms.length > 0 && (
+          <>
+            <PageHeader className="flex-row items-center justify-between">
+              <div className="flex flex-col">
+                <PageHeader.Title>나의 폼 목록</PageHeader.Title>
+                <PageHeader.Description>
+                  내가 만든 폼 목록을 확인하고, 새로 만들거나 기존 폼을 편집할 수 있어요.
+                </PageHeader.Description>
+              </div>
+              <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
+                <PlusIcon className="size-4" />
+                새로 만들기
+              </Button>
+            </PageHeader>
+            <ul className="mt-8 grid grid-cols-1 gap-2 md:grid-cols-2">
+              {forms.map((form) => (
+                <FormListItem key={form.id} form={form} />
+              ))}
+            </ul>
+          </>
+        )}
+        {forms.length === 0 && <FormEmptyState />}
       </main>
     </div>
   );
@@ -156,6 +162,20 @@ const FormListItem = ({ form }: FormListItemProps) => {
         </DropdownMenu>
       </div>
     </li>
+  );
+};
+
+const FormEmptyState = () => {
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center">
+      <LibraryBigIcon className="mb-4 size-12 text-neutral-200" />
+      <p className="mb-2 text-lg font-semibold">새로운 폼을 만들어 시작해보세요</p>
+      <p className="text-subtle mb-4 text-center">5분 안에 간단한 폼을 만들고 공유할 수 있어요</p>
+      <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
+        <PlusIcon className="size-4" />
+        새로 만들기
+      </Button>
+    </div>
   );
 };
 
