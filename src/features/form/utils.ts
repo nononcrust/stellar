@@ -38,6 +38,7 @@ export const createEmptyField = <T extends StellarFormField["type"]>(
   const emptyField = {
     id,
     type,
+    defaultValue: fieldRegistry[type].defaultValue,
     ...fieldRegistry[type].emptyField(),
   } as Extract<StellarFormField, { type: T }>;
 

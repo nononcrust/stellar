@@ -23,7 +23,11 @@ const CheckboxGroup = ({ className, value, onChange, ...props }: CheckboxGroupPr
   );
 };
 
-const CheckboxGroupOption = Checkbox;
+type CheckboxGroupOptionProps = React.ComponentPropsWithRef<typeof Checkbox>;
+
+const CheckboxGroupOption = ({ ...props }: CheckboxGroupOptionProps) => {
+  return <Checkbox {...props} />;
+};
 
 CheckboxGroup.Option = CheckboxGroupOption;
 

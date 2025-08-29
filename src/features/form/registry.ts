@@ -2,6 +2,7 @@ import { objectKeys } from "@/lib/object";
 import {
   ChevronDownIcon,
   CircleDotIcon,
+  CopyCheckIcon,
   HashIcon,
   MailIcon,
   PhoneIcon,
@@ -13,20 +14,18 @@ import z from "zod";
 import { StellarFormField } from "./schema";
 import { applyOptionalConstraint } from "./utils";
 
-type FieldRegistry<T extends StellarFormField["type"]> = {
-  name: string;
-  defaultValue: string;
-  emptyField: () => Omit<Extract<StellarFormField, { type: T }>, "type" | "id">;
-  formSchema: (
-    field: StellarFormField,
-  ) => z.ZodString | z.ZodOptional<z.ZodString> | z.ZodEmail | z.ZodOptional<z.ZodEmail>;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-};
-
 const emptyCommonField = {
   label: "",
   description: "",
   required: false,
+};
+
+type FieldRegistry<T extends StellarFormField["type"]> = {
+  name: string;
+  defaultValue: Extract<StellarFormField, { type: T }>["defaultValue"];
+  emptyField: () => Omit<Extract<StellarFormField, { type: T }>, "type" | "id" | "defaultValue">;
+  formSchema: (field: StellarFormField) => unknown;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
 const shortTextField: FieldRegistry<"SHORT_TEXT"> = {
@@ -35,7 +34,7 @@ const shortTextField: FieldRegistry<"SHORT_TEXT"> = {
   formSchema: (field) => applyOptionalConstraint(z.string(), field.required),
   emptyField: () => emptyCommonField,
   icon: TypeIcon,
-};
+} as const;
 
 const longTextField: FieldRegistry<"LONG_TEXT"> = {
   name: "긴 텍스트",
@@ -43,7 +42,7 @@ const longTextField: FieldRegistry<"LONG_TEXT"> = {
   formSchema: (field) => applyOptionalConstraint(z.string(), field.required),
   emptyField: () => emptyCommonField,
   icon: TextIcon,
-};
+} as const;
 
 const emailField: FieldRegistry<"EMAIL"> = {
   name: "이메일",
@@ -55,7 +54,7 @@ const emailField: FieldRegistry<"EMAIL"> = {
     ),
   emptyField: () => emptyCommonField,
   icon: MailIcon,
-};
+} as const;
 
 const phoneNumberField: FieldRegistry<"PHONE_NUMBER"> = {
   name: "전화번호",
@@ -63,7 +62,7 @@ const phoneNumberField: FieldRegistry<"PHONE_NUMBER"> = {
   formSchema: (field) => applyOptionalConstraint(z.string(), field.required),
   emptyField: () => emptyCommonField,
   icon: PhoneIcon,
-};
+} as const;
 
 const numberField: FieldRegistry<"NUMBER"> = {
   name: "숫자",
@@ -71,7 +70,7 @@ const numberField: FieldRegistry<"NUMBER"> = {
   formSchema: (field) => applyOptionalConstraint(z.string(), field.required),
   emptyField: () => emptyCommonField,
   icon: HashIcon,
-};
+} as const;
 
 const dropdownField: FieldRegistry<"DROPDOWN"> = {
   name: "드롭다운",
@@ -87,7 +86,7 @@ const dropdownField: FieldRegistry<"DROPDOWN"> = {
     ],
   }),
   icon: ChevronDownIcon,
-};
+} as const;
 
 const singleChoiceField: FieldRegistry<"SINGLE_CHOICE"> = {
   name: "단일 선택",
@@ -103,6 +102,22 @@ const singleChoiceField: FieldRegistry<"SINGLE_CHOICE"> = {
     ],
   }),
   icon: CircleDotIcon,
+} as const;
+
+const multipleChoiceField: FieldRegistry<"MULTIPLE_CHOICE"> = {
+  name: "다중 선택",
+  defaultValue: [],
+  formSchema: () => z.string().array(),
+  emptyField: () => ({
+    ...emptyCommonField,
+    options: [
+      {
+        label: "",
+        value: nanoid(),
+      },
+    ],
+  }),
+  icon: CopyCheckIcon,
 };
 
 export const fieldRegistry = {
@@ -113,6 +128,7 @@ export const fieldRegistry = {
   NUMBER: numberField,
   DROPDOWN: dropdownField,
   SINGLE_CHOICE: singleChoiceField,
-} satisfies Record<StellarFormField["type"], FieldRegistry<StellarFormField["type"]>>;
+  MULTIPLE_CHOICE: multipleChoiceField,
+} as const;
 
 export const FORM_TYPES = objectKeys(fieldRegistry);

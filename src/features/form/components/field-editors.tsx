@@ -85,6 +85,30 @@ const SingleChoiceEditor = ({ field, onFieldChange }: SingleChoiceEditorProps) =
   );
 };
 
+type MultipleChoiceEditorProps = {
+  field: Extract<StellarFormField, { type: "MULTIPLE_CHOICE" }>;
+  onFieldChange: (field: Extract<StellarFormField, { type: "MULTIPLE_CHOICE" }>) => void;
+};
+
+const MultipleChoiceEditor = ({ field, onFieldChange }: MultipleChoiceEditorProps) => {
+  const onOptionsChange = (options: Option[]) => {
+    onFieldChange({
+      ...field,
+      options,
+    });
+  };
+
+  return (
+    <div className="flex flex-col">
+      <OptionEditor
+        options={field.options}
+        onOptionsChange={onOptionsChange}
+        maxOptions={MAX_SINGLE_CHOICE_OPTIONS}
+      />
+    </div>
+  );
+};
+
 export const FieldEditor = {
   ShortText: ShortTextEditor,
   LongText: LongTextEditor,
@@ -93,4 +117,5 @@ export const FieldEditor = {
   Number: NumberEditor,
   Dropdown: DropdownEditor,
   SingleChoice: SingleChoiceEditor,
+  MultipleChoice: MultipleChoiceEditor,
 };

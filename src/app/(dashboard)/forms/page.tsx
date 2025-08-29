@@ -3,7 +3,6 @@
 import { PageHeader } from "@/components/layouts/page-header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChipButton } from "@/components/ui/chip-button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { IconButton } from "@/components/ui/icon-button";
 import { Prompt } from "@/components/ui/prompt";
@@ -40,10 +39,10 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
           </PageHeader.Description>
         </PageHeader>
         <div className="mt-8 flex items-center justify-end">
-          <ChipButton render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
+          <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
             <PlusIcon className="size-4" />
             새로 만들기
-          </ChipButton>
+          </Button>
         </div>
         <ul className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
           {forms.map((form) => (

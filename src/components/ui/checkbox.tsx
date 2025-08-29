@@ -52,9 +52,11 @@ export const checkboxVariants = tv({
   },
 });
 
-type CheckboxProps = Omit<CheckboxBase.Root.Props, "onChange" | "onCheckedChange"> &
+type CheckboxProps = Omit<
+  React.ComponentPropsWithRef<typeof CheckboxBase.Root>,
+  "onChange" | "onCheckedChange"
+> &
   VariantProps<typeof checkboxVariants> & {
-    ref?: React.Ref<HTMLButtonElement>;
     onChange?: (checked: boolean) => void;
   };
 
@@ -63,14 +65,15 @@ const Checkbox = ({
   checked,
   "aria-invalid": ariaInvalid,
   size,
+  variant,
   children,
   onChange = noop,
   ...props
 }: CheckboxProps) => {
-  const variants = checkboxVariants({ size });
+  const variants = checkboxVariants({ size, variant });
 
-  const CheckboxInput = () => {
-    return (
+  return (
+    <label className={cn("flex w-fit items-center", className)}>
       <CheckboxBase.Root
         className={cn(
           variants.root(),
@@ -95,16 +98,6 @@ const Checkbox = ({
           )}
         />
       </CheckboxBase.Root>
-    );
-  };
-
-  if (!children) {
-    return <CheckboxInput />;
-  }
-
-  return (
-    <label className={cn("flex w-fit items-center", className)}>
-      <CheckboxInput />
       <span className={cn(variants.label())}>{children}</span>
     </label>
   );

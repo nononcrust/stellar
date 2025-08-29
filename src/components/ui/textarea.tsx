@@ -26,7 +26,7 @@ const Textarea = ({ className, "aria-invalid": ariaInvalid, variant, ...props }:
     <textarea
       className={cn(
         textareaVariants({ variant }),
-        ariaInvalid && "focus-visible:focus-input-ring-error border-error",
+        ariaInvalid && "focus-visible:focus-input-ring-error! border-error",
         className,
       )}
       aria-invalid={ariaInvalid}

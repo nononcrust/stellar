@@ -126,7 +126,7 @@ const SummarySection = () => {
   return (
     <div className="mt-8">
       <h2 className="text-xl font-semibold">필드별 요약</h2>
-      <div className="mt-6 flex flex-col gap-6">
+      <div className="mt-6 flex flex-col gap-10">
         {form.fields.map((field, index) => (
           <FieldSummary
             number={index + 1}

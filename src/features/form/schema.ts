@@ -12,25 +12,31 @@ const StellarFormFieldBase = z.object({
 export type ShortText = z.infer<typeof ShortText>;
 export const ShortText = StellarFormFieldBase.extend({
   type: z.literal("SHORT_TEXT"),
+  defaultValue: z.string(),
 });
 
 export type LongText = z.infer<typeof LongText>;
 export const LongText = StellarFormFieldBase.extend({
   type: z.literal("LONG_TEXT"),
+  defaultValue: z.string(),
 });
 
 export type Email = z.infer<typeof Email>;
 export const Email = StellarFormFieldBase.extend({
   type: z.literal("EMAIL"),
+  defaultValue: z.string(),
 });
 
 export type PhoneNumber = z.infer<typeof PhoneNumber>;
 export const PhoneNumber = StellarFormFieldBase.extend({
   type: z.literal("PHONE_NUMBER"),
+  defaultValue: z.string(),
 });
 
+export type Number = z.infer<typeof Number>;
 export const Number = StellarFormFieldBase.extend({
   type: z.literal("NUMBER"),
+  defaultValue: z.string(),
 });
 
 export type Option = z.infer<typeof Option>;
@@ -39,14 +45,27 @@ export const Option = z.object({
   value: z.string(),
 });
 
+export type Dropdown = z.infer<typeof Dropdown>;
 export const Dropdown = StellarFormFieldBase.extend({
   type: z.literal("DROPDOWN"),
+  defaultValue: z.string(),
   options: z.array(Option),
 });
 
+export type SingleChoice = z.infer<typeof SingleChoice>;
 export const SingleChoice = StellarFormFieldBase.extend({
   type: z.literal("SINGLE_CHOICE"),
+  defaultValue: z.string(),
   options: z.array(Option),
+});
+
+export type MultipleChoice = z.infer<typeof MultipleChoice>;
+export const MultipleChoice = StellarFormFieldBase.extend({
+  type: z.literal("MULTIPLE_CHOICE"),
+  defaultValue: z.array(z.string()),
+  options: z.array(Option),
+  min: z.number().optional(),
+  max: z.number().optional(),
 });
 
 export type StellarFormField = z.infer<typeof StellarFormField>;
@@ -58,6 +77,7 @@ export const StellarFormField = z.discriminatedUnion("type", [
   Number,
   Dropdown,
   SingleChoice,
+  MultipleChoice,
 ]);
 
 export type StellarForm = {

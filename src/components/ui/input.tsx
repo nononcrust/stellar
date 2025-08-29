@@ -25,7 +25,7 @@ const Input = ({ className, "aria-invalid": ariaInvalid, variant, ...props }: In
     <input
       className={cn(
         inputVariants({ variant }),
-        ariaInvalid && "focus-visible:focus-input-ring-error border-error",
+        ariaInvalid && "focus-visible:focus-input-ring-error! border-error",
         className,
       )}
       aria-invalid={ariaInvalid}

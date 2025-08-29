@@ -44,6 +44,8 @@ export const FormFieldEditor = ({ field, onFieldChange, onRemoveField }: FormFie
             return <FieldEditor.Dropdown field={field} onFieldChange={onFieldChange} />;
           case "SINGLE_CHOICE":
             return <FieldEditor.SingleChoice field={field} onFieldChange={onFieldChange} />;
+          case "MULTIPLE_CHOICE":
+            return <FieldEditor.MultipleChoice field={field} onFieldChange={onFieldChange} />;
           default:
             field satisfies never;
         }
