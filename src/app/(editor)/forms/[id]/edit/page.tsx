@@ -22,7 +22,12 @@ const FormEditPage = ErrorBoundary.with(
 
     return (
       <FormEditorPageTemplate
-        header={<FormEditorPageTemplate.Header saveButton={<SaveButton form={stellarForm} />} />}
+        header={
+          <FormEditorPageTemplate.Header
+            stellarForm={stellarForm}
+            saveButton={<SaveButton form={stellarForm} />}
+          />
+        }
         editor={<FormEditor value={stellarForm} onChange={setStellarForm} />}
       />
     );

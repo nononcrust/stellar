@@ -36,6 +36,7 @@ export default function FormCreatePage() {
     <FormEditorPageTemplate
       header={
         <FormEditorPageTemplate.Header
+          stellarForm={stellarForm}
           saveButton={
             <Button size="small" onClick={onCreateButtonClick}>
               저장하기

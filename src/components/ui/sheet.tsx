@@ -34,19 +34,19 @@ type Side = "top" | "bottom" | "left" | "right";
 
 const styleBySide: Record<Side, string> = {
   top: cn(
-    "top-4 left-4 right-4",
+    "top-0 left-0 right-0",
     "data-starting-style:translate-y-[-4rem] data-ending-style:translate-y-[-4rem]",
   ),
   bottom: cn(
-    "bottom-4 left-4 right-4",
+    "bottom-0 left-0 right-0",
     "data-starting-style:translate-y-[4rem] data-ending-style:translate-y-[4rem]",
   ),
   left: cn(
-    "left-4 top-4 bottom-4",
+    "left-0 top-0 bottom-0",
     "data-starting-style:translate-x-[-4rem] data-ending-style:translate-x-[-4rem]",
   ),
   right: cn(
-    "right-4 top-4 bottom-4",
+    "right-0 top-0 bottom-0",
     "data-starting-style:translate-x-[4rem] data-ending-style:translate-x-[4rem]",
   ),
 };
@@ -63,8 +63,7 @@ const SheetContent = ({ className, children, side = "right", ...props }: SheetCo
         <SheetBase.Popup
           className={cn(
             "fixed z-50",
-            "max-h-[calc(100%-2rem)] max-w-[calc(100%-2rem)]",
-            "bg-background flex w-full flex-col overflow-y-auto rounded-[1rem]",
+            "bg-background flex w-full flex-col overflow-y-auto",
             "data-ending-style:opacity-0 data-starting-style:opacity-0",
             "duration-150",
             styleBySide[side],
