@@ -1,6 +1,7 @@
 "use client";
 
 import { PageHeader } from "@/components/layouts/page-header";
+import { ErrorState } from "@/components/shared/error-state";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { IconButton } from "@/components/ui/icon-button";
@@ -12,16 +13,18 @@ import { CopyLinkDialog } from "@/features/form/components/copy-link-dialog";
 import { FieldSummary } from "@/features/form/components/field-summary";
 import { FormStatusTag } from "@/features/form/components/form-status-tag";
 import { generateFormUrl } from "@/features/form/utils";
+import { ROUTE } from "@/lib/route";
 import { formDetailQueryOptions, formResponseListQueryOptions } from "@/services/dashboard/form";
 import { FormResponse } from "@prisma/client";
-import { Suspense } from "@suspensive/react";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { ErrorBoundary, ErrorBoundaryFallbackProps, Suspense } from "@suspensive/react";
+import { QueryErrorResetBoundary, useSuspenseQuery } from "@tanstack/react-query";
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { HTTPError } from "ky";
 import {
   Columns3Icon,
   DownloadIcon,
@@ -31,16 +34,45 @@ import {
   UsersRoundIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { overlay } from "overlay-kit";
 import { useMemo, useState } from "react";
+import { MoreDropdown } from "../_components/more-dropdown";
 
 const INITIAL_VISIBLE_COLUMNS = 4;
 
 const columnHelper = createColumnHelper<FormResponse["answers"]>();
 
-const FormDetailPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
+const ErrorFallback = ({ error, reset }: ErrorBoundaryFallbackProps) => {
+  if (error instanceof HTTPError && error.response.status === 404) {
+    return redirect(ROUTE.DASHBOARD.FORM.LIST);
+  }
+
+  return (
+    <main className="h-dvh">
+      <ErrorState onRetry={reset} />
+    </main>
+  );
+};
+
+const FormDetailPage = () => {
+  return (
+    <QueryErrorResetBoundary>
+      {({ reset }) => (
+        <ErrorBoundary fallback={ErrorFallback} onReset={reset}>
+          <Suspense clientOnly>
+            <FormDetail />
+          </Suspense>
+        </ErrorBoundary>
+      )}
+    </QueryErrorResetBoundary>
+  );
+};
+
+const FormDetail = () => {
   const params = useParams() as { id: string };
+
+  const router = useRouter();
 
   const { data: form } = useSuspenseQuery(formDetailQueryOptions({ id: params.id }));
   const { data: formResponses } = useSuspenseQuery(
@@ -87,9 +119,15 @@ const FormDetailPage = Suspense.with({ fallback: null, clientOnly: true }, () =>
                 </Link>
               }
             />
-            <IconButton variant="ghost" aria-label="메뉴">
-              <MoreVerticalIcon className="size-4" />
-            </IconButton>
+            <MoreDropdown
+              onDeleted={() => router.push(ROUTE.DASHBOARD.FORM.LIST)}
+              formId={form.id}
+              trigger={
+                <IconButton variant="ghost" aria-label="메뉴">
+                  <MoreVerticalIcon className="size-4" />
+                </IconButton>
+              }
+            />
           </div>
         </div>
       </PageHeader>
@@ -107,7 +145,7 @@ const FormDetailPage = Suspense.with({ fallback: null, clientOnly: true }, () =>
       </Tabs>
     </main>
   );
-});
+};
 
 const SummarySection = () => {
   const params = useParams() as { id: string };

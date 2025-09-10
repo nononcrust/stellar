@@ -2,6 +2,7 @@ import { StellarFormField } from "@/features/form/schema";
 import { Limit, Page } from "@/server/utils/pagination";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
+import { HTTPException } from "hono/http-exception";
 import z from "zod";
 import { prisma } from "../../../lib/prisma";
 import { authMiddleware } from "../../middleware";
@@ -40,9 +41,13 @@ export const dashboardFormRouter = new Hono()
   .get("/:id", authMiddleware, async (c) => {
     const session = c.get("session");
 
-    const form = await prisma.form.findUniqueOrThrow({
+    const form = await prisma.form.findUnique({
       where: { id: c.req.param("id"), userId: session.user.id },
     });
+
+    if (form === null) {
+      throw new HTTPException(404);
+    }
 
     return c.json(form, 200);
   })
