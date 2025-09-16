@@ -5,6 +5,10 @@ import { Form } from "./_components/form";
 
 export const dynamic = "force-dynamic";
 
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
 export const generateMetadata = async (props: PageProps) => {
   const params = await props.params;
 
@@ -22,10 +26,6 @@ export const generateMetadata = async (props: PageProps) => {
   return {
     title: `${form.title} - ${siteConfig.title}`,
   };
-};
-
-type PageProps = {
-  params: Promise<{ id: string }>;
 };
 
 export default async function FormResponsePage(props: PageProps) {

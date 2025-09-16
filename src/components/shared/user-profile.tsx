@@ -1,6 +1,6 @@
 "use client";
 
-import { authClient } from "@/lib/auth";
+import { authClient } from "@/lib/auth-client";
 import { ROUTE } from "@/lib/route";
 import { ChevronsUpDownIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
