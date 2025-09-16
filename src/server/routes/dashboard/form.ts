@@ -1,6 +1,8 @@
 import { StellarFormField } from "@/features/form/schema";
+import { allowedFormStatusTransitions } from "@/features/form/utils";
 import { Limit, Page } from "@/server/utils/pagination";
 import { zValidator } from "@hono/zod-validator";
+import { FormStatus } from "@prisma/client";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import z from "zod";
@@ -13,6 +15,11 @@ export type UpdateFormBody = z.infer<typeof UpdateFormBody>;
 const UpdateFormBody = z.object({
   title: FormTitle,
   fields: StellarFormField.array(),
+});
+
+export type UpdateFormStatusBody = z.infer<typeof UpdateFormStatusBody>;
+const UpdateFormStatusBody = z.object({
+  status: z.enum(FormStatus),
 });
 
 export type CreateFormBody = z.infer<typeof CreateFormBody>;
@@ -73,7 +80,7 @@ export const dashboardFormRouter = new Hono()
     });
 
     if (form.userId !== session.user.id) {
-      return c.json({ message: "자신이 작성한 폼만 수정할 수 있습니다." }, 403);
+      return c.json({ message: "자신이 작성한 양식만 수정할 수 있습니다." }, 403);
     }
 
     const body = c.req.valid("json");
@@ -88,6 +95,31 @@ export const dashboardFormRouter = new Hono()
 
     return c.json({ form: updatedForm }, 200);
   })
+  .put("/:id/status", authMiddleware, zValidator("json", UpdateFormStatusBody), async (c) => {
+    const session = c.get("session");
+
+    const form = await prisma.form.findUniqueOrThrow({
+      where: { id: c.req.param("id") },
+    });
+
+    if (form.userId !== session.user.id) {
+      return c.json({ message: "자신이 작성한 양식만 수정할 수 있습니다." }, 403);
+    }
+
+    if (allowedFormStatusTransitions[form.status].includes(c.req.valid("json").status) === false) {
+      return c.json({ message: "유효하지 않은 상태 변경입니다." }, 400);
+    }
+
+    const body = c.req.valid("json");
+    const updatedForm = await prisma.form.update({
+      where: { id: form.id },
+      data: {
+        status: body.status,
+      },
+    });
+
+    return c.json({ form: updatedForm }, 200);
+  })
   .delete("/:id", authMiddleware, async (c) => {
     const id = c.req.param("id");
     const session = c.get("session");
@@ -97,7 +129,7 @@ export const dashboardFormRouter = new Hono()
     });
 
     if (form.userId !== session.user.id) {
-      return c.json({ message: "자신이 작성한 폼만 삭제할 수 있습니다." }, 403);
+      return c.json({ message: "자신이 작성한 양식만 삭제할 수 있습니다." }, 403);
     }
 
     const deletedForm = await prisma.form.delete({ where: { id: form.id } });

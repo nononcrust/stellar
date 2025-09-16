@@ -63,6 +63,7 @@ export const generateFormUrl = ({ id }: { id: string }): string => {
 
 export const allowedFormStatusTransitions: Record<Form["status"], Form["status"][]> = {
   PENDING: ["ACTIVE"],
-  ACTIVE: ["CLOSED"],
-  CLOSED: [],
+  ACTIVE: ["PAUSED", "CLOSED"],
+  PAUSED: ["ACTIVE", "CLOSED"],
+  CLOSED: ["ACTIVE"],
 };

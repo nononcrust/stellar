@@ -27,7 +27,7 @@ export const Sidebar = () => {
         <LayoutGridIcon className="text-subtle size-4" />
         전체 목록
       </SidebarItem>
-      <SidebarSubtitle className="mt-8">폼 목록</SidebarSubtitle>
+      <SidebarSubtitle className="mt-8">설문지 목록</SidebarSubtitle>
       <Suspense clientOnly>
         <FormList />
       </Suspense>

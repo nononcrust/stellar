@@ -42,10 +42,10 @@ const HeroSection = () => {
             <span className="from-primary-light to-primary w-fit bg-gradient-to-r bg-clip-text py-16 text-transparent">
               스텔라
             </span>
-            {" 와 함께\n누구나 쉽고 빠르게 만드는 폼"}
+            {" 와 함께\n누구나 쉽고 빠르게 만드는 설문"}
           </h1>
           <p className="text-subtle mt-3 text-xl font-semibold">
-            설문조사, 신청서, 피드백 수집까지. 간단한 과정으로 필요한 폼을 바로 만들어 공유하세요.
+            설문조사, 신청서, 피드백 수집까지. 간단한 과정으로 필요한 양식을 바로 만들어 공유하세요.
           </p>
         </TransitionMount>
         <TransitionMount delay={0.2}>

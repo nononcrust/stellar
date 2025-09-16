@@ -1,4 +1,8 @@
-import { CreateFormBody, UpdateFormBody } from "@/server/routes/dashboard/form";
+import {
+  CreateFormBody,
+  UpdateFormBody,
+  UpdateFormStatusBody,
+} from "@/server/routes/dashboard/form";
 import { Form } from "@prisma/client";
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../client";
@@ -12,6 +16,13 @@ export const dashboardFormApi = {
   },
   updateForm: async ({ id, body }: { body: UpdateFormBody; id: string }) => {
     const response = await api.dashboard.forms[":id"].$patch({
+      json: body,
+      param: { id },
+    });
+    return response.json();
+  },
+  updateFormStatus: async ({ id, body }: { id: string; body: UpdateFormStatusBody }) => {
+    const response = await api.dashboard.forms[":id"].status.$put({
       json: body,
       param: { id },
     });
@@ -83,6 +94,19 @@ export const useUpdateFormMutation = () => {
   return useMutation({
     mutationFn: dashboardFormApi.updateForm,
     onSuccess: async (_, { id }) => {
+      await queryClient.invalidateQueries(formListQueryOptions());
+      await queryClient.invalidateQueries(formDetailQueryOptions({ id }));
+    },
+  });
+};
+
+export const useUpdateFormStatusMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: dashboardFormApi.updateFormStatus,
+    onSuccess: async (_, { id }) => {
+      await queryClient.invalidateQueries(formListQueryOptions());
       await queryClient.invalidateQueries(formDetailQueryOptions({ id }));
     },
   });
@@ -103,5 +127,6 @@ export const useDeleteFormMutation = () => {
 export const FORM_STATUS_LABEL: Record<Form["status"], string> = {
   PENDING: "시작 전",
   ACTIVE: "진행 중",
+  PAUSED: "중단됨",
   CLOSED: "종료됨",
 };

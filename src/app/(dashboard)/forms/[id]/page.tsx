@@ -108,7 +108,7 @@ const FormDetail = () => {
             />
             <IconButton
               variant="ghost"
-              aria-label="폼 링크 열기"
+              aria-label="설문 링크 열기"
               render={
                 <Link
                   href={generateFormUrl({ id: form.id })}
@@ -121,7 +121,10 @@ const FormDetail = () => {
             />
             <MoreDropdown
               onDeleted={() => router.push(ROUTE.DASHBOARD.FORM.LIST)}
-              formId={form.id}
+              form={{
+                id: form.id,
+                status: form.status,
+              }}
               trigger={
                 <IconButton variant="ghost" aria-label="메뉴">
                   <MoreVerticalIcon className="size-4" />

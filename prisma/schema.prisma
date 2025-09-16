@@ -97,6 +97,7 @@ model Form {
 enum FormStatus {
   PENDING
   ACTIVE
+  PAUSED
   CLOSED
 }
 

@@ -4,12 +4,14 @@ import { Form } from "@prisma/client";
 const label: Record<FormStatusTagProps["status"], string> = {
   PENDING: "진행 전",
   ACTIVE: "진행 중",
+  PAUSED: "중지됨",
   CLOSED: "종료됨",
 };
 
 const variant: Record<FormStatusTagProps["status"], TagProps["variant"]> = {
   PENDING: "info",
   ACTIVE: "success",
+  PAUSED: "danger",
   CLOSED: "secondary",
 };
 

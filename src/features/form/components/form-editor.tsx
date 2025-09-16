@@ -61,7 +61,7 @@ const TitleInput = ({ className }: TitleInputProps) => {
       value={stellarForm.title}
       onChange={(e) => changeTitle(e.target.value)}
       maxLength={TITLE_MAX_LENGTH}
-      placeholder="폼 제목"
+      placeholder="제목"
       className={cn("placeholder-placeholder text-2xl font-semibold outline-hidden", className)}
     />
   );

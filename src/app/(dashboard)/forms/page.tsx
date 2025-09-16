@@ -33,9 +33,9 @@ const FormListPage = Suspense.with({ fallback: null, clientOnly: true }, () => {
           <>
             <PageHeader className="flex-row items-center justify-between">
               <div className="flex flex-col gap-2">
-                <PageHeader.Title>나의 폼 목록</PageHeader.Title>
+                <PageHeader.Title>나의 설문지</PageHeader.Title>
                 <PageHeader.Description>
-                  내가 만든 폼 목록을 확인하고, 새로 만들거나 기존 폼을 편집할 수 있어요.
+                  내가 만든 설문 목록을 확인하고, 새로 만들거나 기존 설문을 편집할 수 있어요.
                 </PageHeader.Description>
               </div>
               <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
@@ -94,7 +94,7 @@ const FormListItem = ({ form }: FormListItemProps) => {
         <IconButton
           size="xsmall"
           variant="ghost"
-          aria-label="폼 링크 열기"
+          aria-label="설문 링크 열기"
           render={
             <Link href={generateFormUrl({ id: form.id })} target="_blank" rel="noopener noreferrer">
               <ExternalLinkIcon className="size-4" />
@@ -102,7 +102,10 @@ const FormListItem = ({ form }: FormListItemProps) => {
           }
         />
         <MoreDropdown
-          formId={form.id}
+          form={{
+            id: form.id,
+            status: form.status,
+          }}
           trigger={
             <IconButton aria-label="메뉴" size="xsmall" variant="ghost">
               <MoreVerticalIcon className="size-4" />
@@ -118,8 +121,8 @@ const FormEmptyState = () => {
   return (
     <div className="flex flex-1 flex-col items-center justify-center">
       <LibraryBigIcon className="mb-4 size-12 text-neutral-200" />
-      <p className="mb-2 text-lg font-semibold">새로운 폼을 만들어 시작해보세요</p>
-      <p className="text-subtle mb-4 text-center">5분 안에 간단한 폼을 만들고 공유할 수 있어요</p>
+      <p className="mb-2 text-lg font-semibold">새로운 설문을 만들어 시작해보세요</p>
+      <p className="text-subtle mb-4 text-center">5분 안에 간단한 설문을 만들고 공유할 수 있어요</p>
       <Button render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
         <PlusIcon className="size-4" />
         새로 만들기
