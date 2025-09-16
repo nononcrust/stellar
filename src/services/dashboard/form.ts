@@ -94,8 +94,10 @@ export const useUpdateFormMutation = () => {
   return useMutation({
     mutationFn: dashboardFormApi.updateForm,
     onSuccess: async (_, { id }) => {
-      await queryClient.invalidateQueries(formListQueryOptions());
-      await queryClient.invalidateQueries(formDetailQueryOptions({ id }));
+      await Promise.all([
+        queryClient.invalidateQueries(formListQueryOptions()),
+        queryClient.invalidateQueries(formDetailQueryOptions({ id })),
+      ]);
     },
   });
 };
@@ -106,8 +108,10 @@ export const useUpdateFormStatusMutation = () => {
   return useMutation({
     mutationFn: dashboardFormApi.updateFormStatus,
     onSuccess: async (_, { id }) => {
-      await queryClient.invalidateQueries(formListQueryOptions());
-      await queryClient.invalidateQueries(formDetailQueryOptions({ id }));
+      await Promise.all([
+        queryClient.invalidateQueries(formListQueryOptions()),
+        queryClient.invalidateQueries(formDetailQueryOptions({ id })),
+      ]);
     },
   });
 };

@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Prompt } from "@/components/ui/prompt";
+import { toast } from "@/components/ui/toast";
 import { allowedFormStatusTransitions } from "@/features/form/utils";
 import { ROUTE } from "@/lib/route";
 import { useDeleteFormMutation, useUpdateFormStatusMutation } from "@/services/dashboard/form";
 import { Form } from "@prisma/client";
 import { noop } from "es-toolkit";
-import { SquarePenIcon, Trash2Icon } from "lucide-react";
+import { CirclePlayIcon, SquarePenIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { overlay } from "overlay-kit";
 import { Fragment } from "react";
@@ -70,6 +71,7 @@ export const MoreDropdown = ({ trigger, form, onDeleted = noop }: MoreDropdownPr
           {
             onSuccess: () => {
               close();
+              toast.success("설문이 마감 처리되었어요.");
             },
           },
         );
@@ -101,10 +103,16 @@ export const MoreDropdown = ({ trigger, form, onDeleted = noop }: MoreDropdownPr
         onClick={() => {
           if (updateFormStatus.isPending) return;
 
-          updateFormStatus.mutate({ id: form.id, body: { status: "ACTIVE" } });
+          updateFormStatus.mutate(
+            { id: form.id, body: { status: "ACTIVE" } },
+            {
+              onSuccess: () => toast.success("설문이 시작되었어요."),
+            },
+          );
         }}
       >
-        게시하기
+        <CirclePlayIcon className="size-4" />
+        설문 시작하기
       </DropdownMenu.Item>
     ),
     PAUSED: (
@@ -112,13 +120,18 @@ export const MoreDropdown = ({ trigger, form, onDeleted = noop }: MoreDropdownPr
         onClick={() => {
           if (updateFormStatus.isPending) return;
 
-          updateFormStatus.mutate({ id: form.id, body: { status: "PAUSED" } });
+          updateFormStatus.mutate(
+            { id: form.id, body: { status: "PAUSED" } },
+            {
+              onSuccess: () => toast.success("설문이 중지되었어요."),
+            },
+          );
         }}
       >
-        중지하기
+        설문 중지하기
       </DropdownMenu.Item>
     ),
-    CLOSED: <DropdownMenu.Item onClick={onCloseFormButtonClick}>마감하기</DropdownMenu.Item>,
+    CLOSED: <DropdownMenu.Item onClick={onCloseFormButtonClick}>설문 마감하기</DropdownMenu.Item>,
   };
 
   return (
@@ -129,7 +142,7 @@ export const MoreDropdown = ({ trigger, form, onDeleted = noop }: MoreDropdownPr
           render={<Link className="ring-0" href={ROUTE.DASHBOARD.FORM.EDIT({ id: form.id })} />}
         >
           <SquarePenIcon className="size-4" />
-          편집하기
+          수정하기
         </DropdownMenu.Item>
         {allowedFormStatusTransitions[form.status].map((status) => (
           <Fragment key={status}>{menuByStatus[status]}</Fragment>

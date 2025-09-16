@@ -13,13 +13,9 @@ import { UserProfile } from "../shared/user-profile";
 
 export const Sidebar = () => {
   return (
-    <aside className="border-border bg-background-100 fixed top-0 bottom-0 left-0 w-[260px] border-r p-3">
+    <aside className="border-border bg-background-100 fixed top-0 bottom-0 left-0 flex w-[260px] flex-col border-r p-3 pb-0">
       <UserProfile />
       <SidebarItem className="mt-4" render={<Link href={ROUTE.DASHBOARD.FORM.CREATE} />}>
-        {/* <span className="bg-primary flex size-6 items-center justify-center rounded-full text-white">
-          <PlusIcon className="size-3" />
-        </span>
-        새로 만들기 */}
         <SquarePenIcon className="text-subtle size-4" />
         새로 만들기
       </SidebarItem>
@@ -27,7 +23,6 @@ export const Sidebar = () => {
         <LayoutGridIcon className="text-subtle size-4" />
         전체 목록
       </SidebarItem>
-      <SidebarSubtitle className="mt-8">설문지 목록</SidebarSubtitle>
       <Suspense clientOnly>
         <FormList />
       </Suspense>
@@ -39,16 +34,23 @@ const FormList = () => {
   const { data: forms } = useSuspenseQuery(formListQueryOptions());
   const pathname = usePathname();
 
+  if (forms.length === 0) {
+    return null;
+  }
+
   return (
-    <SidebarGroup>
-      {forms.map((form) => (
-        <SidebarItem
-          key={form.id}
-          active={pathname === ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}
-          render={<Link href={ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}>{form.title}</Link>}
-        />
-      ))}
-    </SidebarGroup>
+    <div className="scrollbar-hide flex-1 overflow-y-auto pb-4">
+      <SidebarSubtitle className="mt-8">설문지 목록</SidebarSubtitle>
+      <SidebarGroup>
+        {forms.map((form) => (
+          <SidebarItem
+            key={form.id}
+            active={pathname === ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}
+            render={<Link href={ROUTE.DASHBOARD.FORM.DETAIL({ id: form.id })}>{form.title}</Link>}
+          />
+        ))}
+      </SidebarGroup>
+    </div>
   );
 };
 
