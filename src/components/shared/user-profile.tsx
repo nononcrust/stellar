@@ -1,6 +1,6 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { ROUTE } from "@/lib/route";
 import { ChevronsUpDownIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import { DropdownMenu } from "../ui/dropdown-menu";
 
 export const UserProfile = () => {
   const router = useRouter();
+
+  const { session } = useSession();
 
   const onLogout = async () => {
     await authClient.signOut();
@@ -22,8 +24,8 @@ export const UserProfile = () => {
           <UserIcon className="size-6 fill-white text-white" />
         </div>
         <div className="flex flex-1 flex-col">
-          <p className="line-clamp-1 text-start text-sm font-medium">노논</p>
-          <p className="text-sub text-start text-xs">nononcrust@gmail.com</p>
+          <p className="line-clamp-1 text-start text-sm font-medium">{session.user.name}</p>
+          <p className="text-sub text-start text-xs">{session.user.email}</p>
         </div>
         <ChevronsUpDownIcon className="size-4" />
       </DropdownMenu.Trigger>
