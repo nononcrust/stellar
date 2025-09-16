@@ -5,7 +5,9 @@ import { Form } from "./_components/form";
 
 export const dynamic = "force-dynamic";
 
-export const generateMetadata = async ({ params }: { params: { id: string } }) => {
+export const generateMetadata = async (props: PageProps) => {
+  const params = await props.params;
+
   const form = await prisma.form.findUnique({
     where: { id: params.id },
     select: { title: true },
