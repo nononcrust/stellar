@@ -37,14 +37,11 @@ export const FormRenderer = ({ stellarForm, onSubmit }: FormRendererProps) => {
       <Form className="mt-8 flex flex-col gap-8" onSubmit={form.handleSubmit(onSubmit)}>
         {stellarForm.fields.map((formField) => (
           <Controller
+            key={formField.id}
             name={formField.id}
             control={form.control}
             render={({ field, fieldState }) => (
-              <Form.Field
-                key={formField.id}
-                invalid={fieldState.invalid}
-                required={formField.required}
-              >
+              <Form.Field invalid={fieldState.invalid} required={formField.required}>
                 <div className="mb-3 flex flex-col gap-1">
                   <Form.Label>{formField.label}</Form.Label>
                   {formField.description.length > 0 && (
