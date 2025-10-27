@@ -14,7 +14,7 @@ const Form = ({ children, ...props }: FormProps) => {
 type FormLabelProps = React.ComponentPropsWithRef<"label">;
 
 const FormLabel = ({ className, children, ...props }: FormLabelProps) => {
-  const { required, labelId, id } = useFormItemContext();
+  const { required, labelId, id } = useFormFieldContext();
 
   return (
     <label
@@ -32,7 +32,7 @@ const FormLabel = ({ className, children, ...props }: FormLabelProps) => {
 type FormDescriptionProps = React.ComponentPropsWithoutRef<"p">;
 
 const FormDescription = ({ className, children, ...props }: FormDescriptionProps) => {
-  const { descriptionId, setDescriptionElement } = useFormItemContext();
+  const { descriptionId, setDescriptionElement } = useFormFieldContext();
 
   const refCallback = (node: HTMLParagraphElement | null) => {
     if (node) {
@@ -58,14 +58,14 @@ const FormDescription = ({ className, children, ...props }: FormDescriptionProps
 
 const FormControl = ({ children }: { children: useRender.RenderProp }) => {
   const {
-    error,
+    invalid,
     id,
     labelId,
     descriptionId,
     errorMessageId,
     descriptionElement,
     errorMessageElement,
-  } = useFormItemContext();
+  } = useFormFieldContext();
 
   const ariaDescribedBy =
     cn(descriptionElement && descriptionId, errorMessageElement && errorMessageId) || undefined;
@@ -76,7 +76,7 @@ const FormControl = ({ children }: { children: useRender.RenderProp }) => {
       id,
       "aria-labelledby": labelId,
       "aria-describedby": ariaDescribedBy,
-      "aria-invalid": error || undefined,
+      "aria-invalid": invalid || undefined,
     },
   });
 };
@@ -84,7 +84,7 @@ const FormControl = ({ children }: { children: useRender.RenderProp }) => {
 type FormErrorMessageProps = React.ComponentPropsWithoutRef<"p">;
 
 const FormErrorMessage = ({ className, children, ...props }: FormErrorMessageProps) => {
-  const { errorMessageId, setErrorMessageElement, error } = useFormItemContext();
+  const { errorMessageId, setErrorMessageElement, invalid } = useFormFieldContext();
 
   const refCallback = (node: HTMLParagraphElement | null) => {
     if (node) {
@@ -96,7 +96,7 @@ const FormErrorMessage = ({ className, children, ...props }: FormErrorMessagePro
     };
   };
 
-  if (!error) return null;
+  if (!invalid) return null;
 
   return (
     <p
@@ -110,18 +110,18 @@ const FormErrorMessage = ({ className, children, ...props }: FormErrorMessagePro
   );
 };
 
-type FormItemProps = React.ComponentPropsWithRef<"div"> & {
-  error?: boolean;
+type FormFieldProps = React.ComponentPropsWithRef<"div"> & {
+  invalid?: boolean;
   required?: boolean;
 };
 
-const FormItem = ({
+const FormField = ({
   className,
   children,
-  error = false,
+  invalid = false,
   required = false,
   ...props
-}: FormItemProps) => {
+}: FormFieldProps) => {
   const id = useId();
   const labelId = useId();
   const descriptionId = useId();
@@ -131,9 +131,9 @@ const FormItem = ({
   const [errorMessageElement, setErrorMessageElement] = useState<HTMLParagraphElement | null>(null);
 
   return (
-    <FormItemContext
+    <FormFieldContext
       value={{
-        error,
+        invalid,
         required,
         id,
         labelId,
@@ -148,16 +148,16 @@ const FormItem = ({
       <div className={cn("flex flex-col", className)} {...props}>
         {children}
       </div>
-    </FormItemContext>
+    </FormFieldContext>
   );
 };
 
-type FormItemContextValue = {
+type FormFieldContextValue = {
   id: string;
   labelId: string;
   errorMessageId: string;
   descriptionId: string;
-  error: boolean;
+  invalid: boolean;
   required: boolean;
   descriptionElement: HTMLParagraphElement | null;
   errorMessageElement: HTMLParagraphElement | null;
@@ -165,10 +165,10 @@ type FormItemContextValue = {
   setErrorMessageElement: (element: HTMLParagraphElement | null) => void;
 };
 
-const [FormItemContext, useFormItemContext] =
-  createContextFactory<FormItemContextValue>("FormItem");
+const [FormFieldContext, useFormFieldContext] =
+  createContextFactory<FormFieldContextValue>("FormField");
 
-Form.Item = FormItem;
+Form.Field = FormField;
 Form.Control = FormControl;
 Form.Label = FormLabel;
 Form.Description = FormDescription;
